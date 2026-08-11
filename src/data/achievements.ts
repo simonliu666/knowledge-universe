@@ -7,33 +7,34 @@ import type { IAchievement } from "@/types"
 /** 成就列表 */
 export const ACHIEVEMENTS: IAchievement[] = [
   // ════════════════════════════════════════════
-  // 全局成就（所有领域共享）
+  // 全局成就（所有领域共享，名称为领域中立）
   // ════════════════════════════════════════════
   {
     id: "level-5",
-    name: "心理探索家",
+    name: "探索之星",
     description: "达到5级",
     icon: "⭐",
     condition: { type: "reachLevel", value: 5 },
   },
   {
     id: "level-10",
-    name: "心理学大师",
+    name: "知识大师",
     description: "达到最高等级10级",
     icon: "👑",
     condition: { type: "reachLevel", value: 10 },
-  },
-  {
-    id: "tool-practitioner",
-    name: "知行合一",
-    description: "使用任意工具箱工具进行练习",
-    icon: "🛠️",
-    condition: { type: "useTool" },
   },
 
   // ════════════════════════════════════════════
   // 社会心理学专属成就
   // ════════════════════════════════════════════
+  {
+    id: "tool-practitioner",
+    name: "知行合一",
+    description: "使用工具箱进行心理学练习",
+    icon: "🛠️",
+    subdomain: "social-psychology",
+    condition: { type: "useTool" },
+  },
   {
     id: "sp-first-step",
     name: "心智觉醒",
