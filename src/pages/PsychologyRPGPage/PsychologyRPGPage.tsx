@@ -33,7 +33,7 @@ export default function PsychologyRPGPage() {
     dismissLevelUp,
     dismissAchievement,
     resetProgress,
-  } = usePlayerProgress()
+  } = usePlayerProgress(subdomainId)
 
   const toolRecords = useToolRecords()
   const notesApi = useKnowledgeNotes()
@@ -115,7 +115,7 @@ export default function PsychologyRPGPage() {
         </div>
 
         {/* 顶部角色面板 */}
-        <CharacterPanel progress={progress} />
+        <CharacterPanel progress={progress} subdomainId={subdomainId} />
 
         {/* Tab导航 + 重置按钮 */}
         <div className="flex items-center gap-2">

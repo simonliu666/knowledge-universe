@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react"
 import type { IPlayerProgress, IExpGainEvent } from "@/types"
-import { LEVEL_TITLES, EXP_RULES, getLevelByExp } from "@/data/levels"
+import { EXP_RULES, getLevelByExp, getTitleByLevel } from "@/data/levels"
 import { KNOWLEDGE_POINTS, TOTAL_POINTS } from "@/data/knowledgePoints"
 import { SKILL_MODULES } from "@/data/knowledgePoints"
 import { ACHIEVEMENTS } from "@/data/achievements"
@@ -81,7 +81,7 @@ export interface PlayerProgressAPI {
   resetProgress: () => void
 }
 
-export function usePlayerProgress(): PlayerProgressAPI {
+export function usePlayerProgress(subdomainId?: string): PlayerProgressAPI {
   const [progress, setProgress] = useState<IPlayerProgress>(loadProgress)
   const [expGains, setExpGains] = useState<IExpGainEvent[]>([])
   const [levelUpInfo, setLevelUpInfo] = useState<{ level: number; title: string } | null>(null)
@@ -156,8 +156,8 @@ export function usePlayerProgress(): PlayerProgressAPI {
 
       // 检查升级
       if (newLevel > prev.level) {
-        const titleData = LEVEL_TITLES[newLevel - 1]
-        setLevelUpInfo({ level: newLevel, title: titleData.title })
+        const newTitle = subdomainId ? getTitleByLevel(subdomainId, newLevel) : ""
+        setLevelUpInfo({ level: newLevel, title: newTitle })
       }
 
       // 检查成就
@@ -165,7 +165,7 @@ export function usePlayerProgress(): PlayerProgressAPI {
 
       return newProgress
     })
-  }, [addExpGain, checkAchievements])
+  }, [addExpGain, checkAchievements, subdomainId])
 
   // 通关副本
   const clearDungeon = useCallback((dungeonId: string, isFirstClear: boolean) => {
@@ -179,7 +179,7 @@ export function usePlayerProgress(): PlayerProgressAPI {
         addExpGain(dungeon.rewardExp, `通关「${dungeon.name}」`)
         const newProgress = { ...prev, exp: newExp, level: newLevel }
         if (newLevel > prev.level) {
-          setLevelUpInfo({ level: newLevel, title: LEVEL_TITLES[newLevel - 1].title })
+          setLevelUpInfo({ level: newLevel, title: subdomainId ? getTitleByLevel(subdomainId, newLevel) : "" })
         }
         setTimeout(() => checkAchievements(newProgress), 50)
         return newProgress
@@ -202,12 +202,12 @@ export function usePlayerProgress(): PlayerProgressAPI {
 
       addExpGain(totalReward, `通关「${dungeon.name}」${isFirstClear ? "（首通奖励）" : ""}`)
       if (newLevel > prev.level) {
-        setLevelUpInfo({ level: newLevel, title: LEVEL_TITLES[newLevel - 1].title })
+        setLevelUpInfo({ level: newLevel, title: subdomainId ? getTitleByLevel(subdomainId, newLevel) : "" })
       }
       setTimeout(() => checkAchievements(newProgress), 50)
       return newProgress
     })
-  }, [addExpGain, checkAchievements])
+  }, [addExpGain, checkAchievements, subdomainId])
 
   // 工具箱每日首次奖励
   const triggerToolBonus = useCallback((): boolean => {
@@ -226,13 +226,13 @@ export function usePlayerProgress(): PlayerProgressAPI {
       }
       addExpGain(EXP_RULES.USE_TOOL_DAILY, "工具箱练习（每日首次）")
       if (newLevel > prev.level) {
-        setLevelUpInfo({ level: newLevel, title: LEVEL_TITLES[newLevel - 1].title })
+        setLevelUpInfo({ level: newLevel, title: subdomainId ? getTitleByLevel(subdomainId, newLevel) : "" })
       }
       setTimeout(() => checkAchievements(newProgress), 50)
       return newProgress
     })
     return granted
-  }, [addExpGain, checkAchievements])
+  }, [addExpGain, checkAchievements, subdomainId])
 
   // 触发工具使用成就
   const triggerToolAchievement = useCallback(() => {

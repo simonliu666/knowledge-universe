@@ -9,10 +9,11 @@ import type { IPlayerProgress } from "@/types"
 
 interface CharacterPanelProps {
   progress: IPlayerProgress
+  subdomainId?: string
 }
 
-export function CharacterPanel({ progress }: CharacterPanelProps) {
-  const levelInfo = getLevelProgress(progress.exp)
+export function CharacterPanel({ progress, subdomainId }: CharacterPanelProps) {
+  const levelInfo = getLevelProgress(progress.exp, subdomainId)
 
   return (
     <header className="glass-card relative overflow-hidden rounded-xl p-5 md:p-6">
