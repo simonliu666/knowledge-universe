@@ -9,8 +9,8 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<DomainMapPage />} />
-        <Route path="psychology" element={<PsychologyRPGPage />} />
-        <Route path="gaming" element={<PsychologyRPGPage />} />
+        <Route path="psychology" element={<PsychologyRPGPage domainId="psychology" />} />
+        <Route path="gaming" element={<PsychologyRPGPage domainId="electronic-gaming" />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

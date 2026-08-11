@@ -55,7 +55,11 @@ export default function DomainMapPage() {
 
         {/* 领域地图 */}
         <div className="space-y-3">
-          {DOMAINS.map((domain) => {
+          {[...DOMAINS].sort((a, b) => {
+            // 已激活的领域排最前面，其次即将开放，最后锁定
+            const order = { active: 0, "coming-soon": 1, locked: 2 }
+            return order[a.status] - order[b.status]
+          }).map((domain) => {
             const isActive = domain.status === "active"
             const isComingSoon = domain.status === "coming-soon"
             const isLocked = domain.status === "locked"
@@ -110,7 +114,7 @@ export default function DomainMapPage() {
                       )}
                       {isLocked && <Lock className="h-3.5 w-3.5 text-muted-foreground" />}
                     </div>
-                    <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                    <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground line-clamp-2">
                       {domain.description}
                     </p>
                   </div>
@@ -181,7 +185,7 @@ export default function DomainMapPage() {
                             </div>
 
                             {/* 描述 */}
-                            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                            <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-2">
                               {sub.description}
                             </p>
 
@@ -198,7 +202,7 @@ export default function DomainMapPage() {
                                       )}
                                     />
                                     <span className={cn(
-                                      "flex-1 truncate",
+                                      "flex-1",
                                       modLearned ? "text-foreground" : "text-muted-foreground"
                                     )}>
                                       {mod.name}

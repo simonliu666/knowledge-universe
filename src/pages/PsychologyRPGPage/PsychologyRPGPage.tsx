@@ -17,7 +17,11 @@ import { LevelUpOverlay } from "./components/LevelUpOverlay"
 import { AchievementUnlockOverlay } from "./components/AchievementUnlockOverlay"
 import { ExpFloatText } from "./components/ExpFloatText"
 
-export default function PsychologyRPGPage() {
+interface PsychologyRPGPageProps {
+  domainId: string
+}
+
+export default function PsychologyRPGPage({ domainId }: PsychologyRPGPageProps) {
   const navigate = useNavigate()
   const {
     progress,
@@ -123,6 +127,7 @@ export default function PsychologyRPGPage() {
               learnedPoints={progress.learnedPoints}
               onLearn={learnPoint}
               notesApi={notesApi}
+              domainId={domainId}
             />
           )}
           {activeTab === "achievements" && (
