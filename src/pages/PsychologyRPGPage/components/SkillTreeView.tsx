@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 interface SkillTreeViewProps {
   learnedPoints: string[]
   onLearn: (pointId: string) => void
-  domainId: string
+  subdomainId: string
   notesApi: {
     notes: IKnowledgeNote[]
     qaRecords: IQARecord[]
@@ -22,19 +22,9 @@ interface SkillTreeViewProps {
   }
 }
 
-// 根据大领域ID获取其下所有子领域的ID
-function getSubdomainIdsByDomain(domainId: string): string[] {
-  const subdomainMap: Record<string, string[]> = {
-    "psychology": ["social-psychology", "cognitive-psychology", "personality-psychology"],
-    "electronic-gaming": ["game-industry-history", "game-industry-structure", "emerging-tech", "industry-laws-trends"],
-  }
-  return subdomainMap[domainId] || []
-}
-
-export function SkillTreeView({ learnedPoints, onLearn, notesApi, domainId }: SkillTreeViewProps) {
-  // 按领域过滤模块
-  const subdomainIds = useMemo(() => getSubdomainIdsByDomain(domainId), [domainId])
-  const modules = useMemo(() => SKILL_MODULES.filter(m => subdomainIds.includes(m.subdomain)), [subdomainIds])
+export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }: SkillTreeViewProps) {
+  // 按子领域过滤模块
+  const modules = useMemo(() => SKILL_MODULES.filter(m => m.subdomain === subdomainId), [subdomainId])
   const [activeModule, setActiveModule] = useState(modules[0]?.id || "")
   const [expandedAll, setExpandedAll] = useState(false)
   // 当前展开的知识点ID，null 表示全部折叠；expandedAll 为 true 时忽略此值

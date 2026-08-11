@@ -1,15 +1,17 @@
 import { Lock } from "lucide-react"
-import { ACHIEVEMENTS } from "@/data/achievements"
+import { getAchievementsBySubdomain } from "@/data/achievements"
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
 interface AchievementsViewProps {
   unlockedAchievements: string[]
+  subdomainId: string
 }
 
-export function AchievementsView({ unlockedAchievements }: AchievementsViewProps) {
-  const unlockedCount = unlockedAchievements.length
-  const totalCount = ACHIEVEMENTS.length
+export function AchievementsView({ unlockedAchievements, subdomainId }: AchievementsViewProps) {
+  const achievements = getAchievementsBySubdomain(subdomainId)
+  const unlockedCount = achievements.filter((a) => unlockedAchievements.includes(a.id)).length
+  const totalCount = achievements.length
 
   return (
     <div className="flex flex-col gap-3">
@@ -27,7 +29,7 @@ export function AchievementsView({ unlockedAchievements }: AchievementsViewProps
 
       {/* 徽章列表 — 紧凑网格 */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-        {ACHIEVEMENTS.map((ach) => {
+        {achievements.map((ach) => {
           const isUnlocked = unlockedAchievements.includes(ach.id)
           return (
             <TooltipProvider key={ach.id}>

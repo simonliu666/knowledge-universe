@@ -3,19 +3,21 @@ import { Swords, CheckCircle2, XCircle, ArrowLeft, RotateCcw, Star } from "lucid
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
-import { DUNGEONS } from "@/data/dungeons"
+import { getDungeonsBySubdomain } from "@/data/dungeons"
 import { getPointById } from "@/data/knowledgePoints"
 import { cn } from "@/lib/utils"
-import type { IDungeon, IQuizQuestion } from "@/types"
+import type { IDungeon } from "@/types"
 
 interface DungeonViewProps {
   clearedDungeons: string[]
   onClear: (dungeonId: string, isFirstClear: boolean) => void
+  subdomainId: string
 }
 
 type Phase = "list" | "quiz" | "result"
 
-export function DungeonView({ clearedDungeons, onClear }: DungeonViewProps) {
+export function DungeonView({ clearedDungeons, onClear, subdomainId }: DungeonViewProps) {
+  const dungeons = getDungeonsBySubdomain(subdomainId)
   const [activeDungeon, setActiveDungeon] = useState<IDungeon | null>(null)
   const [phase, setPhase] = useState<Phase>("list")
   const [currentQ, setCurrentQ] = useState(0)
@@ -96,8 +98,14 @@ export function DungeonView({ clearedDungeons, onClear }: DungeonViewProps) {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          {DUNGEONS.map((dungeon) => {
+        {dungeons.length === 0 ? (
+          <div className="flex flex-col items-center gap-3 py-16 text-center">
+            <Swords className="h-10 w-10 text-muted-foreground/40" />
+            <p className="text-sm text-muted-foreground">该领域的实战副本正在筹备中，敬请期待</p>
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-3">
+            {dungeons.map((dungeon) => {
             const isCleared = clearedDungeons.includes(dungeon.id)
             return (
               <Card
@@ -154,7 +162,8 @@ export function DungeonView({ clearedDungeons, onClear }: DungeonViewProps) {
               </Card>
             )
           })}
-        </div>
+          </div>
+        )}
       </div>
     )
   }

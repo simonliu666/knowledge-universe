@@ -20,7 +20,7 @@ export const DOMAINS: IKnowledgeDomain[] = [
         description: "理解他人与社会如何塑造我们的行为、认知与情感",
         status: "active",
         totalPoints: 42,
-        route: "/psychology",
+        route: "/learn/social-psychology",
         modules: [
           { id: "sp-intro", name: "社会心理学导论", description: "定义、历史、理论与方法", totalPoints: 4 },
           { id: "sp-cognition", name: "社会认知", description: "对人知觉、图式、刻板印象与思维捷径", totalPoints: 6 },
@@ -39,7 +39,7 @@ export const DOMAINS: IKnowledgeDomain[] = [
         description: "研究知觉、注意、记忆、思维与语言等认知过程",
         status: "active",
         totalPoints: 21,
-        route: "/psychology",
+        route: "/learn/cognitive-psychology",
         modules: [
           { id: "cp-intro", name: "认知心理学导论", description: "学科定位、信息加工框架与研究方法", totalPoints: 4 },
           { id: "cp-perception", name: "知觉与模式识别", description: "知觉特性、组织原则与模式识别", totalPoints: 4 },
@@ -55,7 +55,7 @@ export const DOMAINS: IKnowledgeDomain[] = [
         description: "六大理论流派解读人格结构、发展与差异",
         status: "active",
         totalPoints: 27,
-        route: "/psychology",
+        route: "/learn/personality-psychology",
         modules: [
           { id: "pp-intro", name: "人格心理学导论", description: "人格概念、历史脉络与六大流派概览", totalPoints: 3 },
           { id: "pp-psychoanalysis", name: "精神分析流派", description: "潜意识动力、人格结构与心理性欲发展", totalPoints: 4 },
@@ -294,7 +294,7 @@ export const DOMAINS: IKnowledgeDomain[] = [
         description: "从1947年首个专利到2026年万亿级产业——80年发展历程与核心转折",
         status: "active",
         totalPoints: 9,
-        route: "/gaming",
+        route: "/learn/game-industry-history",
         modules: [
           { id: "eg-history-origin", name: "行业起源与早期发展", description: "电子游戏诞生与街机时代、雅达利崩盘", totalPoints: 3 },
           { id: "eg-history-console", name: "主机时代演进", description: "任天堂、索尼、微软三代霸主更替", totalPoints: 3 },
@@ -307,7 +307,7 @@ export const DOMAINS: IKnowledgeDomain[] = [
         description: "主机、PC、移动三大传统赛道的竞争格局与差异化策略",
         status: "active",
         totalPoints: 6,
-        route: "/gaming",
+        route: "/learn/game-industry-structure",
         modules: [
           { id: "eg-console-track", name: "主机游戏赛道", description: "索尼/微软/任天堂三足鼎立", totalPoints: 2 },
           { id: "eg-pc-track", name: "PC游戏赛道", description: "Steam垄断与独立游戏生态", totalPoints: 2 },
@@ -320,7 +320,7 @@ export const DOMAINS: IKnowledgeDomain[] = [
         description: "云游戏、AI游戏、VR/AR空间计算——行业的第二增长曲线",
         status: "active",
         totalPoints: 10,
-        route: "/gaming",
+        route: "/learn/emerging-tech",
         modules: [
           { id: "eg-cloud-gaming", name: "云游戏", description: "云端渲染与订阅制商业模式", totalPoints: 3 },
           { id: "eg-ai-gaming", name: "AI游戏", description: "AI引擎工具、智能NPC与研发降本", totalPoints: 3 },
@@ -333,7 +333,7 @@ export const DOMAINS: IKnowledgeDomain[] = [
         description: "80年发展的三大核心规律与未来十年五大演进方向",
         status: "active",
         totalPoints: 9,
-        route: "/gaming",
+        route: "/learn/industry-laws-trends",
         modules: [
           { id: "eg-core-laws", name: "行业核心规律", description: "技术迭代、内容为王、商业模式演变", totalPoints: 3 },
           { id: "eg-global-market", name: "全球市场格局", description: "中美双极引领与马太效应", totalPoints: 2 },

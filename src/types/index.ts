@@ -76,6 +76,7 @@ export interface IAchievement {
   name: string;
   description: string;
   icon: string;
+  subdomain?: string;      // 所属子领域ID，不设则为全局成就
   condition: {
     type: 'learnCount' | 'learnModule' | 'clearDungeon' | 'reachLevel' | 'useTool' | 'learnAll';
     value?: number;
@@ -114,6 +115,7 @@ export interface IDungeon {
   rewardExp: number;
   firstClearBonus: number;
   questions: IQuizQuestion[];
+  subdomain?: string;      // 所属子领域ID
 }
 
 /** ABC情绪记录 */
