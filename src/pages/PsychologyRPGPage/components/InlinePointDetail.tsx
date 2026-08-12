@@ -1,5 +1,5 @@
 import { useState, memo, useMemo } from "react"
-import { Plus, Trash2, Link2, Check, Lightbulb, Sparkles } from "lucide-react"
+import { Plus, Trash2, Link2, Check, Lightbulb, Sparkles, ShieldAlert } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getPointById } from "@/data/knowledgePoints"
 import type { IKnowledgePoint, IQARecord, IKnowledgeNote, NodeStatus } from "@/types"
@@ -144,6 +144,17 @@ export const InlinePointDetail = memo(function InlinePointDetail({
         <DetailSection title="实操用法" accentColor="warning">
           <FormattedText text={point.practice} />
         </DetailSection>
+
+        {/* 适用边界 */}
+        {point.boundaries && (
+          <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-3.5">
+            <div className="mb-2 flex items-center gap-1.5">
+              <ShieldAlert className="h-4 w-4 text-destructive" />
+              <h3 className="text-sm font-bold tracking-wide text-destructive">适用边界</h3>
+            </div>
+            <FormattedText text={point.boundaries} />
+          </div>
+        )}
 
         {/* 关联知识点 */}
         {relatedPoints.length > 0 && (
