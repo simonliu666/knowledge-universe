@@ -1,6 +1,13 @@
-import { useState, useMemo, useCallback } from "react"
-import { ChevronDown, ChevronUp, Lightbulb } from "lucide-react"
+import { useState, useMemo, useCallback, useRef } from "react"
+import { ChevronDown, ChevronRight, Lightbulb, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog"
 import { SKILL_MODULES, getPointsByModule, getPointById } from "@/data/knowledgePoints"
 import type { IKnowledgePoint, IQARecord, IKnowledgeNote, NodeStatus } from "@/types"
 import { InlinePointDetail } from "./InlinePointDetail"
@@ -27,12 +34,18 @@ interface SkillTreeViewProps {
 export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }: SkillTreeViewProps) {
   // 按子领域过滤模块
   const modules = useMemo(() => SKILL_MODULES.filter(m => m.subdomain === subdomainId), [subdomainId])
-  const [activeModule, setActiveModule] = useState(modules[0]?.id || "")
-  const [expandedAll, setExpandedAll] = useState(false)
-  // 当前展开的知识点ID，null 表示全部折叠；expandedAll 为 true 时忽略此值
-  const [expandedPointId, setExpandedPointId] = useState<string | null>(null)
-  const currentModule = modules.find((m) => m.id === activeModule)!
-  const points = useMemo(() => getPointsByModule(activeModule), [activeModule])
+
+  // 展开的模块集合（默认展开第一个模块）
+  const [expandedModules, setExpandedModules] = useState<Set<string>>(
+    new Set(modules[0] ? [modules[0].id] : [])
+  )
+
+  // 弹窗中当前查看的知识点
+  const [selectedPoint, setSelectedPoint] = useState<IKnowledgePoint | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+
+  // 模块引用（用于架构图点击模块时滚动定位）
+  const moduleRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
   // 预计算 learnedSet
   const learnedSet = useMemo(() => new Set(learnedPoints), [learnedPoints])
@@ -45,7 +58,7 @@ export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }:
       for (const p of modPoints) {
         if (learnedSet.has(p.id)) learnedInModule++
       }
-      return { id: mod.id, name: mod.name, learned: learnedInModule, total: modPoints.length }
+      return { id: mod.id, name: mod.name, learned: learnedInModule, total: modPoints.length, points: modPoints }
     })
   }, [modules, learnedSet])
 
@@ -70,32 +83,59 @@ export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }:
     return "available"
   }, [learnedSet])
 
-  // 点击知识点头部，切换展开/折叠
-  const handleTogglePoint = useCallback((pointId: string) => {
-    if (expandedAll) {
-      // 如果当前是全部展开模式，切换为只展开这一个
-      setExpandedAll(false)
-      setExpandedPointId(pointId)
-      return
-    }
-    setExpandedPointId((prev) => (prev === pointId ? null : pointId))
-  }, [expandedAll])
+  // 切换模块展开/折叠
+  const toggleModule = useCallback((moduleId: string) => {
+    setExpandedModules((prev) => {
+      const next = new Set(prev)
+      if (next.has(moduleId)) {
+        next.delete(moduleId)
+      } else {
+        next.add(moduleId)
+      }
+      return next
+    })
+  }, [])
 
-  // 点击关联知识点：切换模块（如有需要）+ 展开该知识点
-  const handleRelatedClick = useCallback((rp: IKnowledgePoint) => {
-    // 找到该知识点所属模块
-    const mod = modules.find((m) => m.pointIds.includes(rp.id))
-    if (mod && mod.id !== activeModule) {
-      setActiveModule(mod.id)
+  // 打开知识点弹窗
+  const openPointModal = useCallback((point: IKnowledgePoint) => {
+    setSelectedPoint(point)
+    setModalOpen(true)
+  }, [])
+
+  // 通过 ID 打开知识点弹窗（用于网络图点击）
+  const openPointModalById = useCallback((pointId: string) => {
+    const point = getPointById(pointId)
+    if (point) {
+      // 确保所属模块已展开
+      const mod = modules.find((m) => m.pointIds.includes(pointId))
+      if (mod) {
+        setExpandedModules((prev) => new Set(prev).add(mod.id))
+      }
+      openPointModal(point)
     }
-    setExpandedAll(false)
-    setExpandedPointId(rp.id)
-    // 滚动到该知识点
+  }, [modules, openPointModal])
+
+  // 架构图点击模块：展开并滚动定位
+  const handleModuleClickFromArch = useCallback((modId: string) => {
+    setExpandedModules((prev) => new Set(prev).add(modId))
     setTimeout(() => {
-      const el = document.getElementById(`point-${rp.id}`)
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
+      moduleRefs.current[modId]?.scrollIntoView({ behavior: "smooth", block: "start" })
     }, 100)
-  }, [modules, activeModule])
+  }, [])
+
+  // 弹窗中点击关联知识点：切换到新知识点
+  const handleRelatedClick = useCallback((rp: IKnowledgePoint) => {
+    const mod = modules.find((m) => m.pointIds.includes(rp.id))
+    if (mod) {
+      setExpandedModules((prev) => new Set(prev).add(mod.id))
+    }
+    setSelectedPoint(rp)
+  }, [modules])
+
+  // 弹窗中学习知识点后，保持弹窗打开但更新状态
+  const handleLearn = useCallback((pointId: string) => {
+    onLearn(pointId)
+  }, [onLearn])
 
   return (
     <div className="flex flex-col gap-3">
@@ -103,156 +143,203 @@ export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }:
       <DomainArchitectureView
         subdomainId={subdomainId}
         learnedPoints={learnedPoints}
-        onModuleClick={(modId) => setActiveModule(modId)}
+        onModuleClick={handleModuleClickFromArch}
       />
 
       {/* 知识点关联网络图（仅社会心理学展示） */}
       {subdomainId === "social-psychology" && (
         <KnowledgeNetworkGraph
           learnedPoints={learnedPoints}
-          onNodeClick={(pointId) => {
-            const point = getPointById(pointId)
-            if (point) {
-              setActiveModule(point.module)
-              setExpandedPointId(pointId)
-            }
-          }}
+          onNodeClick={openPointModalById}
         />
       )}
 
-      {/* 模块Tab栏 */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="flex flex-wrap gap-1.5">
-          {modules.map((mod) => {
-            const prog = moduleProgress.find((p) => p.id === mod.id)!
-            const isActive = mod.id === activeModule
+      {/* 层级树：模块 → 知识点 */}
+      <div className="rounded-lg border border-border bg-card shadow-sm overflow-hidden">
+        {/* 全部展开/折叠按钮 */}
+        <div className="flex items-center justify-between border-b border-border/60 px-4 py-2.5">
+          <span className="text-sm font-medium text-foreground">技能树</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs"
+            onClick={() => {
+              const allIds = modules.map((m) => m.id)
+              const allExpanded = allIds.every((id) => expandedModules.has(id))
+              setExpandedModules(allExpanded ? new Set() : new Set(allIds))
+            }}
+          >
+            {modules.every((m) => expandedModules.has(m.id)) ? "折叠全部" : "展开全部"}
+          </Button>
+        </div>
+
+        {/* 模块列表 */}
+        <div className="divide-y divide-border/60">
+          {moduleProgress.map((mod) => {
+            const isExpanded = expandedModules.has(mod.id)
+            const isComplete = mod.total > 0 && mod.learned === mod.total
+
             return (
-              <button
-                key={mod.id}
-                onClick={() => setActiveModule(mod.id)}
-                className={cn(
-                  "rounded-lg border px-3 py-1.5 text-sm font-medium transition-all duration-200",
-                  isActive
-                    ? "border-primary/30 bg-primary/10 text-foreground shadow-sm"
-                    : "border-border bg-card text-muted-foreground hover:border-border hover:bg-muted hover:text-foreground"
+              <div key={mod.id} ref={(el) => { moduleRefs.current[mod.id] = el }}>
+                {/* 模块头部行 */}
+                <div
+                  className="flex items-center gap-2.5 px-4 py-3 cursor-pointer hover:bg-muted/40 transition-colors"
+                  onClick={() => toggleModule(mod.id)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault()
+                      toggleModule(mod.id)
+                    }
+                  }}
+                >
+                  {/* 展开/折叠箭头 */}
+                  {isExpanded
+                    ? <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    : <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  }
+
+                  {/* 模块图标 */}
+                  <span className="shrink-0 text-base">
+                    {modules.find((m) => m.id === mod.id)?.icon || "📚"}
+                  </span>
+
+                  {/* 模块名 */}
+                  <span className={cn(
+                    "flex-1 text-sm font-medium",
+                    isComplete ? "text-success-text" : "text-foreground"
+                  )}>
+                    {mod.name}
+                  </span>
+
+                  {/* 进度 */}
+                  <span className={cn(
+                    "shrink-0 text-xs font-bold",
+                    isComplete ? "text-success" : "text-muted-foreground"
+                  )}>
+                    {mod.learned}/{mod.total}
+                  </span>
+
+                  {/* 完成标记 */}
+                  {isComplete && (
+                    <Check className="h-3.5 w-3.5 shrink-0 text-success" />
+                  )}
+                </div>
+
+                {/* 知识点列表（子节点） */}
+                {isExpanded && (
+                  <div className="bg-muted/10">
+                    {mod.points.map((point, idx) => {
+                      const status = getNodeStatus(point)
+                      const counts = reflectionCounts.get(point.id)
+                      const totalCount = counts ? counts.notes + counts.qa : 0
+
+                      return (
+                        <div
+                          key={point.id}
+                          className="flex items-center gap-2.5 pl-10 pr-4 py-2.5 cursor-pointer hover:bg-primary/5 transition-colors"
+                          onClick={() => openPointModal(point)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault()
+                              openPointModal(point)
+                            }
+                          }}
+                        >
+                          {/* 连线 + 编号 */}
+                          <span className="shrink-0 font-mono text-xs text-muted-foreground/50">
+                            {idx + 1}.
+                          </span>
+
+                          {/* 状态指示点 */}
+                          <span
+                            className={cn(
+                              "h-2 w-2 shrink-0 rounded-full border-2 transition-all",
+                              status === "learned" && "border-success bg-success",
+                              status === "available" && "border-primary/40 bg-primary/15",
+                            )}
+                          />
+
+                          {/* 知识点名 */}
+                          <span className={cn(
+                            "flex-1 text-sm",
+                            status === "learned" ? "text-foreground/80" : "text-foreground"
+                          )}>
+                            {point.name}
+                          </span>
+
+                          {/* 知识点图标 */}
+                          <span className="shrink-0 text-sm">
+                            {point.icon}
+                          </span>
+
+                          {/* 笔记/问答计数 */}
+                          {totalCount > 0 && (
+                            <span
+                              className="flex shrink-0 items-center gap-1 rounded border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary"
+                              title={counts ? `${counts.qa} 条问答，${counts.notes} 条笔记` : ""}
+                            >
+                              <Lightbulb className="h-2.5 w-2.5" />
+                              {totalCount}
+                            </span>
+                          )}
+
+                          {/* 状态文字 */}
+                          <span className="shrink-0 text-xs text-muted-foreground">
+                            {status === "learned" ? "已掌握" : "点击查看"}
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
                 )}
-              >
-                {mod.name}
-                <span className={cn(
-                  "ml-1.5 text-xs",
-                  isActive ? "font-bold text-primary" : "text-muted-foreground"
-                )}>
-                  {prog.learned}/{prog.total}
-                </span>
-              </button>
+              </div>
             )
           })}
         </div>
-
-        <Button
-          variant="ghost"
-          size="sm"
-          className="ml-auto text-xs"
-          onClick={() => {
-            setExpandedAll((v) => !v)
-            setExpandedPointId(null)
-          }}
-        >
-          {expandedAll ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
-          {expandedAll ? "折叠全部" : "展开全部"}
-        </Button>
       </div>
 
-      {/* 模块说明 */}
-      <div className="rounded-lg border border-border/60 bg-muted/40 px-4 py-3">
-        <p className="text-sm text-muted-foreground">{currentModule.description}</p>
-      </div>
-
-      {/* 技能树列表 */}
-      <div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-        {points.map((point, idx) => {
-          const status = getNodeStatus(point)
-          const counts = reflectionCounts.get(point.id)
-          const totalCount = counts ? counts.notes + counts.qa : 0
-          const isExpanded = expandedAll || expandedPointId === point.id
-
-          return (
-            <div
-              key={point.id}
-              id={`point-${point.id}`}
-              className="border-b border-border/60 last:border-b-0"
-            >
-              {/* 知识点头部行 */}
-              <div
-                className="flex items-center gap-3 px-4 py-3.5 cursor-pointer hover:bg-muted/40 transition-colors"
-                onClick={() => handleTogglePoint(point.id)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault()
-                    handleTogglePoint(point.id)
-                  }
-                }}
-              >
-                <span className="w-5 shrink-0 text-center font-mono text-xs text-muted-foreground/60">
-                  {idx + 1}
-                </span>
-
-                <span
-                  className={cn(
-                    "h-2.5 w-2.5 shrink-0 rounded-full border-2 transition-all",
-                    status === "learned" && "border-success bg-success",
-                    status === "available" && "border-primary/40 bg-primary/15",
-                  )}
-                />
-
-                <span className={cn(
-                  "flex-1 text-sm font-medium",
-                  status === "learned" ? "text-foreground" : "text-foreground"
-                )}>
-                  {point.name}
-                </span>
-
-                {totalCount > 0 && (
-                  <span
-                    className="flex shrink-0 items-center gap-1 rounded border border-primary bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary"
-                    title={counts ? `${counts.qa} 条问答，${counts.notes} 条笔记` : ""}
-                  >
-                    <Lightbulb className="h-3 w-3" />
-                    {totalCount}
+      {/* 知识点详情弹窗 */}
+      <Dialog open={modalOpen} onOpenChange={(open) => {
+        setModalOpen(open)
+        if (!open) setSelectedPoint(null)
+      }}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col gap-0 p-0">
+          {selectedPoint && (
+            <>
+              {/* 弹窗头部 */}
+              <DialogHeader className="px-5 pt-5 pb-3 border-b border-border/60">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">{selectedPoint.icon}</span>
+                  <DialogTitle className="text-lg">
+                    {selectedPoint.name}
+                  </DialogTitle>
+                </div>
+                <DialogDescription className="text-xs">
+                  {selectedPoint.moduleName}
+                  <span className="ml-2 text-muted-foreground/60">
+                    {getNodeStatus(selectedPoint) === "learned" ? "· 已掌握" : "· 未学习"}
                   </span>
-                )}
+                </DialogDescription>
+              </DialogHeader>
 
-                {/* 状态文字 */}
-                <span className="shrink-0 text-xs">
-                  {status === "learned" && <span className="text-success-text">已掌握</span>}
-                  {status === "available" && !isExpanded && <span className="text-primary">点击展开</span>}
-                </span>
-
-                {/* 展开/折叠箭头 */}
-                <span className="shrink-0 text-muted-foreground">
-                  {isExpanded
-                    ? <ChevronUp className="h-4 w-4" />
-                    : <ChevronDown className="h-4 w-4" />
-                  }
-                </span>
-              </div>
-
-              {/* 就地展开的详情内容 */}
-              {isExpanded && (
+              {/* 弹窗内容（可滚动） */}
+              <div className="overflow-y-auto flex-1 max-h-[calc(90vh-100px)]">
                 <InlinePointDetail
-                  point={point}
-                  status={status}
-                  onLearn={onLearn}
+                  point={selectedPoint}
+                  status={getNodeStatus(selectedPoint)}
+                  onLearn={handleLearn}
                   onRelatedClick={handleRelatedClick}
                   notesApi={notesApi}
                 />
-              )}
-            </div>
-          )
-        })}
-      </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
