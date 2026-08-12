@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react"
-import { ChevronDown, ChevronUp, Network, ArrowDown } from "lucide-react"
-import { SKILL_MODULES } from "@/data/knowledgePoints"
+import { ChevronDown, ChevronRight, Network, ArrowDown, Check } from "lucide-react"
+import { SKILL_MODULES, getPointsByModule } from "@/data/knowledgePoints"
+import type { IKnowledgePoint } from "@/types"
 import { cn } from "@/lib/utils"
 
 // ============================================================
@@ -10,7 +11,6 @@ import { cn } from "@/lib/utils"
 interface ArchModule {
   name: string
   moduleId?: string
-  points: string
   color: string
 }
 
@@ -29,8 +29,8 @@ interface DomainArch {
   title: string
   description: string
   layers: ArchLayer[]
-  flows: ArchFlow[] // 层与层之间的逻辑关系，长度 = layers.length - 1
-  logicChain: string // 核心逻辑链一句话
+  flows: ArchFlow[]
+  logicChain: string
 }
 
 const ARCHITECTURES: Record<string, DomainArch> = {
@@ -42,26 +42,26 @@ const ARCHITECTURES: Record<string, DomainArch> = {
         name: "个体层面",
         subtitle: "你脑子里发生了什么",
         modules: [
-          { name: "社会认知", moduleId: "sp-cognition", points: "刻板印象 · 偏见 · 歧视", color: "hsl(195 85% 55%)" },
-          { name: "归因理论", moduleId: "sp-attribution", points: "基本归因错误 · 自我服务偏差", color: "hsl(210 70% 55%)" },
-          { name: "内心机制", moduleId: "sp-inner", points: "ABC · 认知失调 · 努力辩护", color: "hsl(265 85% 62%)" },
+          { name: "社会认知", moduleId: "sp-cognition", color: "hsl(195 85% 55%)" },
+          { name: "归因理论", moduleId: "sp-attribution", color: "hsl(210 70% 55%)" },
+          { name: "内心机制", moduleId: "sp-inner", color: "hsl(265 85% 62%)" },
         ],
       },
       {
         name: "人际层面",
         subtitle: "人与人之间如何互相影响",
         modules: [
-          { name: "社会影响", moduleId: "sp-influence", points: "从众 · 服从 · 登门槛 · 互惠", color: "hsl(210 70% 55%)" },
-          { name: "态度与说服", moduleId: "sp-attitude", points: "中心路径 · 外周路径", color: "hsl(265 85% 62%)" },
-          { name: "人际吸引", moduleId: "sp-interpersonal", points: "吸引 · 亲密 · 社会交往", color: "hsl(320 70% 58%)" },
-          { name: "利他与侵犯", moduleId: "sp-altruism-aggression", points: "利他 · 攻击 · 旁观者效应", color: "hsl(155 70% 50%)" },
+          { name: "社会影响", moduleId: "sp-influence", color: "hsl(210 70% 55%)" },
+          { name: "态度与说服", moduleId: "sp-attitude", color: "hsl(265 85% 62%)" },
+          { name: "人际吸引", moduleId: "sp-interpersonal", color: "hsl(320 70% 58%)" },
+          { name: "利他与侵犯", moduleId: "sp-altruism-aggression", color: "hsl(155 70% 50%)" },
         ],
       },
       {
         name: "群体层面",
         subtitle: "多人聚合后涌现的新现象",
         modules: [
-          { name: "群体行为", moduleId: "sp-group", points: "群体极化 · 群体思维", color: "hsl(35 85% 60%)" },
+          { name: "群体行为", moduleId: "sp-group", color: "hsl(35 85% 60%)" },
         ],
       },
     ],
@@ -79,17 +79,17 @@ const ARCHITECTURES: Record<string, DomainArch> = {
         name: "信息输入层",
         subtitle: "外界信息如何进入大脑",
         modules: [
-          { name: "知觉与模式识别", moduleId: "cp-perception", points: "知觉组织 · 模式识别 · 自上/下加工", color: "hsl(195 85% 55%)" },
-          { name: "注意", moduleId: "cp-attention", points: "选择性注意 · 过滤器 · 资源分配", color: "hsl(210 70% 55%)" },
+          { name: "知觉与模式识别", moduleId: "cp-perception", color: "hsl(195 85% 55%)" },
+          { name: "注意", moduleId: "cp-attention", color: "hsl(210 70% 55%)" },
         ],
       },
       {
         name: "加工与存储层",
         subtitle: "信息如何被处理和保存",
         modules: [
-          { name: "记忆", moduleId: "cp-memory", points: "感觉记忆 · 短时记忆 · 长时记忆", color: "hsl(265 85% 62%)" },
-          { name: "思维与问题解决", moduleId: "cp-thinking", points: "概念 · 推理 · 决策", color: "hsl(275 75% 58%)" },
-          { name: "语言", moduleId: "cp-language", points: "语言理解 · 语言产生", color: "hsl(155 70% 50%)" },
+          { name: "记忆", moduleId: "cp-memory", color: "hsl(265 85% 62%)" },
+          { name: "思维与问题解决", moduleId: "cp-thinking", color: "hsl(275 75% 58%)" },
+          { name: "语言", moduleId: "cp-language", color: "hsl(155 70% 50%)" },
         ],
       },
     ],
@@ -106,26 +106,26 @@ const ARCHITECTURES: Record<string, DomainArch> = {
         name: "基础概念层",
         subtitle: "人格是什么，如何定义",
         modules: [
-          { name: "导论", moduleId: "pp-intro", points: "定义 · 简史 · 六大流派概述", color: "hsl(195 85% 55%)" },
+          { name: "导论", moduleId: "pp-intro", color: "hsl(195 85% 55%)" },
         ],
       },
       {
         name: "理论解释层",
         subtitle: "六大流派从不同视角解释人格",
         modules: [
-          { name: "精神分析", moduleId: "pp-psychoanalysis", points: "潜意识 · 人格结构 · 心理性欲", color: "hsl(275 75% 58%)" },
-          { name: "新精神分析", moduleId: "pp-neo-psychoanalysis", points: "阿德勒 · 荣格 · 埃里克森 · 霍妮", color: "hsl(320 70% 58%)" },
-          { name: "特质流派", moduleId: "pp-trait", points: "奥尔波特 · 卡特尔 · 大五", color: "hsl(175 70% 50%)" },
-          { name: "行为主义", moduleId: "pp-behaviorism", points: "条件反射 · 社会学习 · 习得无助", color: "hsl(130 60% 48%)" },
-          { name: "人本主义", moduleId: "pp-humanistic", points: "罗杰斯 · 马斯洛 · 自尊", color: "hsl(35 85% 58%)" },
-          { name: "认知流派", moduleId: "pp-cognitive", points: "个人建构 · 认知风格 · 自我图式", color: "hsl(200 80% 55%)" },
+          { name: "精神分析", moduleId: "pp-psychoanalysis", color: "hsl(275 75% 58%)" },
+          { name: "新精神分析", moduleId: "pp-neo-psychoanalysis", color: "hsl(320 70% 58%)" },
+          { name: "特质流派", moduleId: "pp-trait", color: "hsl(175 70% 50%)" },
+          { name: "行为主义", moduleId: "pp-behaviorism", color: "hsl(130 60% 48%)" },
+          { name: "人本主义", moduleId: "pp-humanistic", color: "hsl(35 85% 58%)" },
+          { name: "认知流派", moduleId: "pp-cognitive", color: "hsl(200 80% 55%)" },
         ],
       },
       {
         name: "生物基础层",
         subtitle: "人格的遗传与生理基础",
         modules: [
-          { name: "生物流派", moduleId: "pp-biological", points: "艾森克 · 气质 · 进化论", color: "hsl(15 75% 55%)" },
+          { name: "生物流派", moduleId: "pp-biological", color: "hsl(15 75% 55%)" },
         ],
       },
     ],
@@ -138,39 +138,54 @@ const ARCHITECTURES: Record<string, DomainArch> = {
 }
 
 // ============================================================
-// 学科架构图组件
+// 学科架构图组件（含知识点列表）
 // ============================================================
 
 interface DomainArchitectureViewProps {
   subdomainId: string
   learnedPoints: string[]
-  onModuleClick?: (moduleId: string) => void
+  onPointClick?: (point: IKnowledgePoint) => void
 }
 
-export function DomainArchitectureView({ subdomainId, learnedPoints, onModuleClick }: DomainArchitectureViewProps) {
-  const [expanded, setExpanded] = useState(false)
+export function DomainArchitectureView({ subdomainId, learnedPoints, onPointClick }: DomainArchitectureViewProps) {
+  const [expanded, setExpanded] = useState(true)
+  const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set())
   const arch = ARCHITECTURES[subdomainId]
 
   const learnedSet = useMemo(() => new Set(learnedPoints), [learnedPoints])
 
   if (!arch) return null
 
-  // 计算每个模块的学习进度
+  function toggleModule(moduleId: string) {
+    setExpandedModules((prev) => {
+      const next = new Set(prev)
+      if (next.has(moduleId)) {
+        next.delete(moduleId)
+      } else {
+        next.add(moduleId)
+      }
+      return next
+    })
+  }
+
+  function getModulePoints(moduleId?: string): IKnowledgePoint[] {
+    if (!moduleId) return []
+    return getPointsByModule(moduleId)
+  }
+
   function getModuleProgress(moduleId?: string): { learned: number; total: number } {
-    if (!moduleId) return { learned: 0, total: 0 }
-    const mod = SKILL_MODULES.find((m) => m.id === moduleId)
-    if (!mod) return { learned: 0, total: 0 }
-    const points = mod.pointIds
+    const pts = getModulePoints(moduleId)
+    if (pts.length === 0) return { learned: 0, total: 0 }
     let learned = 0
-    for (const pid of points) {
-      if (learnedSet.has(pid)) learned++
+    for (const p of pts) {
+      if (learnedSet.has(p.id)) learned++
     }
-    return { learned, total: points.length }
+    return { learned, total: pts.length }
   }
 
   return (
     <div className="rounded-lg border border-border/60 bg-card/50 overflow-hidden">
-      {/* 标题栏（可点击展开/折叠） */}
+      {/* 标题栏 */}
       <button
         onClick={() => setExpanded(!expanded)}
         className="flex w-full items-center gap-2.5 px-4 py-3 text-left transition-colors hover:bg-muted/40"
@@ -178,7 +193,7 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onModuleCli
         <Network className="h-4 w-4 shrink-0 text-accent" />
         <span className="text-sm font-medium text-foreground">{arch.title}</span>
         <span className="ml-auto shrink-0 text-muted-foreground">
-          {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
         </span>
       </button>
 
@@ -203,20 +218,23 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onModuleCli
                   </div>
 
                   {/* 模块卡片 */}
-                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
                     {layer.modules.map((mod) => {
                       const prog = getModuleProgress(mod.moduleId)
                       const isComplete = prog.total > 0 && prog.learned === prog.total
+                      const isExpanded = mod.moduleId && expandedModules.has(mod.moduleId)
+                      const modPoints = getModulePoints(mod.moduleId)
+
                       return (
-                        <button
+                        <div
                           key={mod.name}
-                          onClick={() => mod.moduleId && onModuleClick?.(mod.moduleId)}
-                          disabled={!mod.moduleId}
                           className={cn(
-                            "group relative overflow-hidden rounded-lg border p-2.5 text-left transition-all",
+                            "relative overflow-hidden rounded-lg border transition-all",
                             isComplete
                               ? "border-success/40 bg-success/5"
-                              : "border-border/60 bg-card hover:border-primary/30 hover:bg-primary/5"
+                              : isExpanded
+                                ? "border-primary/40 bg-card"
+                                : "border-border/60 bg-card hover:border-primary/30"
                           )}
                         >
                           {/* 左侧色条 */}
@@ -224,21 +242,79 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onModuleCli
                             className="absolute left-0 top-0 h-full w-1"
                             style={{ backgroundColor: mod.color, opacity: 0.7 }}
                           />
-                          <div className="pl-2">
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm font-medium text-foreground">{mod.name}</span>
-                              {prog.total > 0 && (
-                                <span className={cn(
-                                  "text-xs font-bold",
-                                  isComplete ? "text-success" : "text-muted-foreground"
-                                )}>
-                                  {prog.learned}/{prog.total}
-                                </span>
-                              )}
+
+                          {/* 模块头部（可点击展开） */}
+                          <button
+                            onClick={() => mod.moduleId && toggleModule(mod.moduleId)}
+                            disabled={!mod.moduleId}
+                            className="flex w-full items-center gap-2 pl-3 pr-2.5 py-2.5 text-left"
+                          >
+                            <span className="text-sm font-medium text-foreground">{mod.name}</span>
+                            {prog.total > 0 && (
+                              <span className={cn(
+                                "text-xs font-bold",
+                                isComplete ? "text-success" : "text-muted-foreground"
+                              )}>
+                                {prog.learned}/{prog.total}
+                              </span>
+                            )}
+                            {isComplete && <Check className="h-3.5 w-3.5 shrink-0 text-success" />}
+                            <span className="ml-auto shrink-0 text-muted-foreground">
+                              {isExpanded
+                                ? <ChevronDown className="h-3.5 w-3.5" />
+                                : <ChevronRight className="h-3.5 w-3.5" />
+                              }
+                            </span>
+                          </button>
+
+                          {/* 知识点列表 */}
+                          {isExpanded && modPoints.length > 0 && (
+                            <div className="border-t border-border/40 bg-muted/10">
+                              {modPoints.map((point, idx) => {
+                                const isLearned = learnedSet.has(point.id)
+                                return (
+                                  <div
+                                    key={point.id}
+                                    className="flex items-center gap-2 pl-5 pr-3 py-2 cursor-pointer hover:bg-primary/5 transition-colors"
+                                    onClick={() => onPointClick?.(point)}
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyDown={(e) => {
+                                      if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault()
+                                        onPointClick?.(point)
+                                      }
+                                    }}
+                                  >
+                                    {/* 编号 */}
+                                    <span className="shrink-0 font-mono text-xs text-muted-foreground/40">
+                                      {idx + 1}.
+                                    </span>
+                                    {/* 状态点 */}
+                                    <span
+                                      className={cn(
+                                        "h-2 w-2 shrink-0 rounded-full border-2 transition-all",
+                                        isLearned && "border-success bg-success",
+                                        !isLearned && "border-primary/40 bg-primary/15",
+                                      )}
+                                    />
+                                    {/* 名称 */}
+                                    <span className={cn(
+                                      "flex-1 text-sm",
+                                      isLearned ? "text-foreground/70" : "text-foreground"
+                                    )}>
+                                      {point.name}
+                                    </span>
+                                    {/* 状态文字 */}
+                                    <span className="shrink-0 text-xs text-muted-foreground">
+                                      {isLearned ? "已掌握" : "点击查看"}
+                                    </span>
+                                  </div>
+                                )
+                              })}
                             </div>
-                            <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{mod.points}</p>
-                          </div>
-                        </button>
+                          )}
+                        </div>
                       )
                     })}
                   </div>
