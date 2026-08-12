@@ -198,6 +198,8 @@ export default function PsychologyRPGPage() {
               notes={notesApi.notes}
               onDeleteQA={notesApi.deleteQARecord}
               onDeleteNote={notesApi.deleteNote}
+              onImportQA={notesApi.importQARecords}
+              onImportNotes={notesApi.importNotes}
             />
           )}
         </div>

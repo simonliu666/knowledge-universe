@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react"
-import { Lightbulb, Trash2, Search, BookOpen } from "lucide-react"
+import { useState, useMemo, useRef, useCallback } from "react"
+import { Lightbulb, Trash2, Search, BookOpen, Download, Upload, Copy, Check } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { SKILL_MODULES, getPointById } from "@/data/knowledgePoints"
 import type { IQARecord, IKnowledgeNote } from "@/types"
@@ -9,6 +9,8 @@ interface LearningReflectionViewProps {
   notes: IKnowledgeNote[]
   onDeleteQA: (id: string) => void
   onDeleteNote: (id: string) => void
+  onImportQA?: (records: IQARecord[]) => void
+  onImportNotes?: (notes: IKnowledgeNote[]) => void
 }
 
 type ReflectionEntry =
@@ -20,10 +22,84 @@ export function LearningReflectionView({
   notes,
   onDeleteQA,
   onDeleteNote,
+  onImportQA,
+  onImportNotes,
 }: LearningReflectionViewProps) {
   const [searchText, setSearchText] = useState("")
   const [filterModule, setFilterModule] = useState<string>("all")
   const [filterType, setFilterType] = useState<string>("all")
+  const [copied, setCopied] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  /** 导出全部记录为JSON文件 */
+  const handleExport = useCallback(() => {
+    const data = {
+      exportDate: new Date().toISOString(),
+      version: "1.0",
+      qaRecords,
+      notes,
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `学习思考记录_${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [qaRecords, notes])
+
+  /** 复制全部问答为纯文本（方便在聊天中分享） */
+  const handleCopyText = useCallback(() => {
+    const lines: string[] = []
+    lines.push("=== 学习思考记录 ===")
+    lines.push(`导出时间: ${new Date().toLocaleString("zh-CN")}`)
+    lines.push(`问答 ${qaRecords.length} 条 | 笔记 ${notes.length} 条`)
+    lines.push("")
+    if (qaRecords.length > 0) {
+      lines.push("── 问答记录 ──")
+      for (const qa of qaRecords) {
+        lines.push(`\n【${qa.pointName}】`)
+        lines.push(`Q: ${qa.question}`)
+        lines.push(`A: ${qa.answer}`)
+      }
+      lines.push("")
+    }
+    if (notes.length > 0) {
+      lines.push("── 笔记记录 ──")
+      for (const note of notes) {
+        const point = getPointById(note.pointId)
+        lines.push(`\n【${point?.name || "未知知识点"}】`)
+        lines.push(note.content)
+      }
+    }
+    navigator.clipboard.writeText(lines.join("\n")).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }, [qaRecords, notes])
+
+  /** 导入JSON文件 */
+  const handleImport = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result as string)
+        if (data.qaRecords && Array.isArray(data.qaRecords) && onImportQA) {
+          onImportQA(data.qaRecords)
+        }
+        if (data.notes && Array.isArray(data.notes) && onImportNotes) {
+          onImportNotes(data.notes)
+        }
+        alert(`导入成功：${data.qaRecords?.length || 0} 条问答，${data.notes?.length || 0} 条笔记`)
+      } catch {
+        alert("导入失败：文件格式不正确")
+      }
+    }
+    reader.readAsText(file)
+    e.target.value = ""
+  }, [onImportQA, onImportNotes])
 
   // 合并所有记录，按时间倒序
   const allEntries: ReflectionEntry[] = useMemo(() => {
@@ -105,7 +181,7 @@ export function LearningReflectionView({
 
   return (
     <div className="space-y-3">
-      {/* 顶部统计 */}
+      {/* 顶部统计 + 操作 */}
       <div className="flex flex-wrap items-center gap-3 rounded border border-border bg-card px-4 py-3">
         <div className="flex items-center gap-2">
           <Lightbulb className="h-4 w-4 text-primary" />
@@ -128,6 +204,46 @@ export function LearningReflectionView({
           <span className="text-lg font-bold text-foreground">{pointStats.length}</span>
           <span className="text-xs text-muted-foreground">个</span>
         </div>
+        {/* 导出 / 复制 / 导入 按钮 */}
+        {hasAny && (
+          <div className="ml-auto flex items-center gap-1.5">
+            <button
+              onClick={handleCopyText}
+              className="flex items-center gap-1 rounded border border-border bg-muted px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-accent hover:text-accent"
+              title="复制全部记录为文本，方便在聊天中分享"
+            >
+              {copied ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3" />}
+              {copied ? "已复制" : "复制文本"}
+            </button>
+            <button
+              onClick={handleExport}
+              className="flex items-center gap-1 rounded border border-border bg-muted px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+              title="导出为JSON文件"
+            >
+              <Download className="h-3 w-3" />
+              导出
+            </button>
+          </div>
+        )}
+        {onImportQA && (
+          <>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              onChange={handleImport}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center gap-1 rounded border border-border bg-muted px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-accent hover:text-accent"
+              title="导入JSON文件（补充回答后的记录）"
+            >
+              <Upload className="h-3 w-3" />
+              导入
+            </button>
+          </>
+        )}
       </div>
 
       {!hasAny ? (

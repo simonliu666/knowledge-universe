@@ -53,6 +53,8 @@ export interface KnowledgeNotesAPI {
   addQARecord: (pointId: string, pointName: string, question: string, answer: string) => void
   deleteNote: (id: string) => void
   deleteQARecord: (id: string) => void
+  importQARecords: (records: IQARecord[]) => void
+  importNotes: (notes: IKnowledgeNote[]) => void
 }
 
 export function useKnowledgeNotes(): KnowledgeNotesAPI {
@@ -111,6 +113,28 @@ export function useKnowledgeNotes(): KnowledgeNotesAPI {
     setQARecords((prev) => prev.filter((q) => q.id !== id))
   }, [])
 
+  /** 批量导入QA记录（合并：相同ID覆盖，新ID追加） */
+  const importQARecords = useCallback((records: IQARecord[]) => {
+    setQARecords((prev) => {
+      const map = new Map(prev.map((r) => [r.id, r]))
+      for (const r of records) {
+        map.set(r.id, r)
+      }
+      return Array.from(map.values()).sort((a, b) => b.createdAt - a.createdAt)
+    })
+  }, [])
+
+  /** 批量导入笔记（合并：相同ID覆盖，新ID追加） */
+  const importNotes = useCallback((newNotes: IKnowledgeNote[]) => {
+    setNotes((prev) => {
+      const map = new Map(prev.map((n) => [n.id, n]))
+      for (const n of newNotes) {
+        map.set(n.id, n)
+      }
+      return Array.from(map.values()).sort((a, b) => b.createdAt - a.createdAt)
+    })
+  }, [])
+
   return useMemo(() => ({
     notes,
     qaRecords,
@@ -120,5 +144,7 @@ export function useKnowledgeNotes(): KnowledgeNotesAPI {
     addQARecord,
     deleteNote,
     deleteQARecord,
-  }), [notes, qaRecords, getNotesByPoint, getQAByPoint, addNote, addQARecord, deleteNote, deleteQARecord])
+    importQARecords,
+    importNotes,
+  }), [notes, qaRecords, getNotesByPoint, getQAByPoint, addNote, addQARecord, deleteNote, deleteQARecord, importQARecords, importNotes])
 }
