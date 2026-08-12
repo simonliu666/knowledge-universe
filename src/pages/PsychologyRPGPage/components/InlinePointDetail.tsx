@@ -1,8 +1,9 @@
 import { useState, memo, useMemo } from "react"
-import { Plus, Trash2, Link2, Check, Lightbulb } from "lucide-react"
+import { Plus, Trash2, Link2, Check, Lightbulb, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getPointById } from "@/data/knowledgePoints"
 import type { IKnowledgePoint, IQARecord, IKnowledgeNote, NodeStatus } from "@/types"
+import { cn } from "@/lib/utils"
 
 interface InlinePointDetailProps {
   point: IKnowledgePoint
@@ -19,6 +20,40 @@ interface InlinePointDetailProps {
     deleteNote: (id: string) => void
     deleteQARecord: (id: string) => void
   }
+}
+
+/**
+ * 智能文本格式化：
+ * 将知识点文本中的编号模式（1) 2) ① ② 等）和分号分隔的要点拆分为多行显示
+ */
+function FormattedText({ text, className }: { text: string; className?: string }) {
+  const lines = useMemo(() => {
+    // 统一处理换行符
+    let normalized = text.replace(/\\n/g, "\n")
+
+    // 在编号模式前插入换行: "1)" "2)" "①" "②" "1." "2." 等
+    normalized = normalized.replace(/(?<!^)\s*(?=\d+[).、])/g, "\n")
+    normalized = normalized.replace(/(?<!^)\s*(?=[①②③④⑤⑥⑦⑧⑨⑩])/g, "\n")
+
+    // 在中文分号后插入换行（如果后面还有内容）
+    normalized = normalized.replace(/；(?=\S)/g, "；\n")
+
+    return normalized.split("\n").map((l) => l.trim()).filter(Boolean)
+  }, [text])
+
+  if (lines.length <= 1) {
+    return <p className={cn("text-sm leading-relaxed text-foreground", className)}>{text}</p>
+  }
+
+  return (
+    <div className={cn("space-y-1.5", className)}>
+      {lines.map((line, idx) => (
+        <p key={idx} className="text-sm leading-relaxed text-foreground">
+          {line}
+        </p>
+      ))}
+    </div>
+  )
 }
 
 export const InlinePointDetail = memo(function InlinePointDetail({
@@ -76,25 +111,38 @@ export const InlinePointDetail = memo(function InlinePointDetail({
 
   return (
     <div className="border-t border-border bg-muted/30 px-4 py-4">
-      <div className="space-y-4">
+      <div className="space-y-5">
+        {/* 费曼法总结（置顶，精简概括） */}
+        {point.feynmanSummary && (
+          <div className="rounded-lg border border-accent/30 bg-accent/5 p-3.5">
+            <div className="mb-2 flex items-center gap-1.5">
+              <Sparkles className="h-4 w-4 text-accent" />
+              <h3 className="text-sm font-bold tracking-wide text-accent">费曼法 · 一句话理解</h3>
+            </div>
+            <p className="text-sm leading-relaxed text-foreground/90">
+              {point.feynmanSummary}
+            </p>
+          </div>
+        )}
+
         {/* 定义 */}
-        <DetailSection title="定义">
-          <p className="text-sm leading-relaxed text-foreground">{point.definition}</p>
+        <DetailSection title="定义" accentColor="primary">
+          <FormattedText text={point.definition} />
         </DetailSection>
 
         {/* 核心逻辑 */}
-        <DetailSection title="核心逻辑">
-          <p className="text-sm leading-relaxed text-foreground">{point.coreLogic}</p>
+        <DetailSection title="核心逻辑" accentColor="accent">
+          <FormattedText text={point.coreLogic} />
         </DetailSection>
 
         {/* 生活案例 */}
-        <DetailSection title="生活案例">
-          <p className="text-sm leading-relaxed text-foreground">{point.lifeCase}</p>
+        <DetailSection title="生活案例" accentColor="success">
+          <FormattedText text={point.lifeCase} />
         </DetailSection>
 
         {/* 实操用法 */}
-        <DetailSection title="实操用法">
-          <p className="text-sm leading-relaxed text-foreground">{point.practice}</p>
+        <DetailSection title="实操用法" accentColor="warning">
+          <FormattedText text={point.practice} />
         </DetailSection>
 
         {/* 关联知识点 */}
@@ -295,21 +343,33 @@ export const InlinePointDetail = memo(function InlinePointDetail({
   )
 })
 
+/** 各区块标题的颜色映射 */
+const ACCENT_STYLES: Record<string, { text: string; bar: string }> = {
+  primary: { text: "text-primary", bar: "bg-primary" },
+  accent: { text: "text-accent", bar: "bg-accent" },
+  success: { text: "text-success-text", bar: "bg-success" },
+  warning: { text: "text-warning-text", bar: "bg-warning" },
+}
+
 function DetailSection({
   title,
   icon,
   action,
+  accentColor = "primary",
   children,
 }: {
   title: string
   icon?: React.ReactNode
   action?: React.ReactNode
+  accentColor?: keyof typeof ACCENT_STYLES
   children: React.ReactNode
 }) {
+  const styles = ACCENT_STYLES[accentColor] || ACCENT_STYLES.primary
   return (
     <div>
-      <div className="mb-1.5 flex items-center justify-between">
-        <h3 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className={cn("flex items-center gap-1.5 text-sm font-bold tracking-wide", styles.text)}>
+          <span className={cn("h-3.5 w-1 rounded-full", styles.bar)} />
           {icon}
           {title}
         </h3>

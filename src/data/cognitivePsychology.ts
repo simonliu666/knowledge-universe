@@ -103,6 +103,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 看到红灯后决定停下——视觉输入→识别→决策→行动的完整加工链；2) 记住一个验证码直到填入——短时存储与提取；3) 听懂一句歧义话语需调动上下文知识——语义加工与已有经验参与。',
     practice:
       '做任何判断或学习时，刻意觉察信息如何在你的头脑中流转：先接收什么、被怎样加工、又调用了哪些已有知识。这种"元认知"视角能帮你发现认知瓶颈与偏见来源。',
+    feynmanSummary: '研究大脑怎么接收、加工、存储和提取信息的学问，像把心理过程拆成计算机的输入-处理-输出。',
     relatedPoints: ['cp-process-structure', 'cp-information-processing', 'cp-research-methods'],
     prerequisites: [],
   },
@@ -120,6 +121,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 识记单词"apple"先感知字形（过程），再与"水果"概念建立联系（结构）；2) 解数学题时调取公式（结构）并按步骤推导（过程）；3) 识别朋友面孔依赖已存储的面孔表征（结构）。',
     practice:
       '学习新知识时有意识地把新信息与已有知识结构建立联系（如画思维导图、做对比表），而非孤立记忆，可显著提升加工深度与保持效果。',
+    feynmanSummary: '过程是大脑加工信息的步骤，结构是知识在脑中怎么摆放；加工时调用结构，加工后又沉淀成结构。',
     relatedPoints: ['cp-definition', 'cp-information-processing', 'cp-ltm'],
     prerequisites: ['cp-definition'],
   },
@@ -137,6 +139,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 打字时眼睛接收字符（感受器）→识别字母（加工器+记忆）→手指按键（效应器）；2) 认路时视觉输入→与记忆中的地图比对→输出转向决策；3) 听写练习中耳朵接收语音→加工为词→手写输出。',
     practice:
       '分析自己完成一项复杂任务（如做饭、写报告）时的信息流向：哪些是输入、哪些是存储调用、哪些是输出，能帮你定位认知瓶颈并优化流程。',
+    feynmanSummary: '把人脑当计算机：输入信息、运算加工、存储调用、输出行为，本质是靠操作符号来思考。',
     relatedPoints: ['cp-definition', 'cp-process-structure', 'cp-research-methods', 'cp-sensory-memory'],
     prerequisites: ['cp-process-structure'],
   },
@@ -154,6 +157,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) Stroop 效应中读颜色词与命名墨色反应时差异，揭示自动化阅读对注意的干扰；2) 心算 7×8 时记录被试出声内容可了解其策略；3) 用程序模拟下棋步骤以验证专家的启发式搜索。',
     practice:
       '学习新技能时计时测量、对比练习前后反应时变化，可量化自动化程度的提升；做复杂决策时刻意放慢并出声思考，能暴露隐藏的加工步骤与偏见。',
+    feynmanSummary: '用反应时（做事快慢）反推脑子分几步加工信息，再配合出声思考和电脑模拟来验证心理过程。',
     relatedPoints: ['cp-definition', 'cp-attention-filter', 'cp-stm', 'cp-information-processing'],
     prerequisites: ['cp-definition'],
   },
@@ -173,6 +177,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 远处的人看起来很小但仍被知觉为正常身高（大小恒常性）；2) 看到半遮的椅子仍识别为完整椅子（整体性）；3) 熟人换了发型一眼认出，陌生人则需细看（理解性）。',
     practice:
       '观察一幅错觉图，体会知觉如何"脑补"缺失信息；在不同光线条件下观察同一物体颜色，觉察恒常性如何稳定你的识别——并留意何时它会被打破。',
+    feynmanSummary: '知觉不是被动接收，而是脑子主动把感觉拼成有意义的整体，并用经验补全、保持稳定判断。',
     relatedPoints: ['cp-perception-organization', 'cp-pattern-recognition', 'cp-top-down-bottom-up'],
     prerequisites: [],
   },
@@ -190,6 +195,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 排队时相邻的人被视为一组（接近律）；2) 红绿灯中同色灯被识别为同一系统（相似律）；3) 看虚线圆仍知觉为完整圆（封闭律）；4) 飞鸟群朝同向飞被视为整体（共同命运）。',
     practice:
       '设计海报或 PPT 时利用接近律与相似律分组信息，可显著提升可读性；觉察广告如何用封闭律引导你"补全"品牌信息，增强记忆与参与感。',
+    feynmanSummary: '脑子会自动按相近、相似、连续、封闭、同向运动把零散刺激归成有意义的整体，无需刻意。',
     relatedPoints: ['cp-perception-concept', 'cp-pattern-recognition', 'cp-top-down-bottom-up'],
     prerequisites: ['cp-perception-concept'],
   },
@@ -207,6 +213,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 识别不同字体的"A"靠原型而非精确模板；2) 字母识别中先检测横线、斜线等特征再组合；3) 一眼区分"圆"与"方"是拓扑性质差异。',
     practice:
       '识别陌生人脸时觉察自己如何提取眼睛、鼻子等特征并组合；练习速读时体会特征分析如何加快字母识别——这正是阅读自动化的基础。',
+    feynmanSummary: '认东西就是把眼前刺激跟脑子里存的模板、原型或特征对上号，从而赋予它意义。',
     relatedPoints: ['cp-perception-concept', 'cp-perception-organization', 'cp-top-down-bottom-up', 'cp-concept-formation'],
     prerequisites: ['cp-perception-organization'],
   },
@@ -224,6 +231,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 读有错别字的文章仍能理解——自上而下用语境纠正；2) 在嘈杂环境中听清朋友说话依赖预期；3) 阅读潦草字迹靠上下文猜测。',
     practice:
       '阅读时遮住部分文字仍能猜测内容，体会自上而下加工的作用；学习新领域时感到困难，往往正是因为缺少自上而下的背景知识支撑。',
+    feynmanSummary: '自下而上是从刺激本身往上拼，自上而下是用经验和预期往下补，两者配合才能看懂世界。',
     relatedPoints: ['cp-perception-concept', 'cp-pattern-recognition', 'cp-attention-filter', 'cp-language-comprehension'],
     prerequisites: ['cp-pattern-recognition'],
   },
@@ -243,6 +251,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 派对上专注一个对话却突然听到有人提到你名字（鸡尾酒会效应）；2) 边看书边听音乐时只能跟上一个；3) 双耳分听实验中追随一只耳的信息，另一只耳内容多被遗忘。',
     practice:
       '觉察自己在嘈杂环境如何选择关注对象；需要深度专注时主动屏蔽干扰，理解"过滤"是有限资源——这正是高效学习环境的设计依据。',
+    feynmanSummary: '脑子资源有限，像个过滤器只放一部分信息进来加工，其余被挡掉或减弱，但重要信息仍能漏进来。',
     relatedPoints: ['cp-attention-capacity', 'cp-automatic-processing', 'cp-sensory-memory', 'cp-top-down-bottom-up'],
     prerequisites: [],
   },
@@ -260,6 +269,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 一边走路一边聊天轻松，但走崎岖路时对话会变慢；2) 新手开车不能聊天，老司机则可以；3) 边做饭边听播客，遇到复杂步骤时播客内容会被忽略。',
     practice:
       '评估当前任务的注意负荷，避免在高负荷时叠加复杂操作（如开车时回消息）；利用多任务训练找到自己的资源分配边界，把高频任务练至自动化以释放资源。',
+    feynmanSummary: '注意力像有限的电池，任务越难越耗电，剩余电量不够就干不了别的事，得靠练习省电。',
     relatedPoints: ['cp-attention-filter', 'cp-automatic-processing', 'cp-stm'],
     prerequisites: ['cp-attention-filter'],
   },
@@ -277,6 +287,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 阅读熟练后无需逐字注视即理解；2) 开车老手踩刹车是自动的；3) 习惯性走错去上班的路（自动化误触发）。',
     practice:
       '将高频重复技能刻意练习至自动化以释放认知资源；同时对自动化行为保持警觉，尤其在关键场景（如驾驶、医疗）避免"无意识出错"。',
+    feynmanSummary: '反复练熟的事会变得不费脑子、自动触发，省下精力干别的，但太熟也可能下意识出错。',
     relatedPoints: ['cp-attention-filter', 'cp-attention-capacity', 'cp-research-methods', 'cp-pattern-recognition'],
     prerequisites: ['cp-attention-capacity'],
   },
@@ -296,6 +307,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 闪电过后短暂看到完整景象；2) 别人说话没听清但能"回声"一下最后几个字；3) 快速翻页动画利用图像记忆形成连续感。',
     practice:
       '体会刚闭眼时残留的视觉影像；理解为何走神错过的话难以回忆——感觉记忆转瞬即逝，未及注意的信息根本无法留存。',
+    feynmanSummary: '感官刚接收的信息会留个极短残影（约半秒），没被注意就立刻消失，是进入大脑的第一站。',
     relatedPoints: ['cp-attention-filter', 'cp-stm', 'cp-information-processing'],
     prerequisites: ['cp-information-processing'],
   },
@@ -313,6 +325,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 记电话号码时按 3-4-4 分组（组块）；2) 心算时把中间结果暂存于工作记忆；3) 听到陌生单词在脑中复述以记住发音。',
     practice:
       '用组块策略记忆长串信息（如身份证号分段）；理解工作记忆是学习的核心瓶颈，避免同时执行多个消耗工作记忆的任务，能显著提升学习效率。',
+    feynmanSummary: '脑子暂时存东西的小黑板，容量约7个组块，靠分组能多记，不反复背十几秒就忘。',
     relatedPoints: ['cp-sensory-memory', 'cp-ltm', 'cp-forgetting', 'cp-research-methods', 'cp-attention-capacity'],
     prerequisites: ['cp-sensory-memory'],
   },
@@ -330,6 +343,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 记住"巴黎是法国首都"以语义形式存储；2) 回忆童年生日场景用表象；3) 进餐厅自动激活"餐厅图式"指导点菜、付账等行为。',
     practice:
       '学习时主动构建语义联系（对比、归类、举例）以加深编码深度；觉察图式如何让你快速理解新场景，但也可能带来刻板预期与记忆偏差。',
+    feynmanSummary: '长期甚至永久存放知识经验的大仓库，按意义和图式组织，提取靠线索，记忆是重构而非回放。',
     relatedPoints: ['cp-stm', 'cp-forgetting', 'cp-process-structure', 'cp-concept-formation', 'cp-language-comprehension'],
     prerequisites: ['cp-stm'],
   },
@@ -347,6 +361,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 学了法语后说英语总混入法语词（前摄/倒摄抑制）；2) 想不起某人名字但记得首字母，提示后立刻想起（提取失败）；3) 旧手机号被新号"覆盖"（倒摄抑制）。',
     practice:
       '学习相似内容时分散时间并穿插不同学科以减少干扰；想不起信息时换用不同线索（情境、首字母、情绪状态）帮助提取，而非一味苦想。',
+    feynmanSummary: '忘事主要不是时间久了自然消退，而是新旧知识互相干扰，或线索不够导致想不起来。',
     relatedPoints: ['cp-stm', 'cp-ltm', 'cp-sensory-memory'],
     prerequisites: ['cp-stm'],
   },
@@ -366,6 +381,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 儿童通过见到各种狗形成"狗"的概念原型；2) 企鹅算不算"鸟"——与原型（麻雀）相似度低故反应慢；3) 学习医学诊断靠积累典型病例（样例）。',
     practice:
       '学习新概念时收集正例与反例，提炼共同属性；觉察自己对某类人或事物的判断是否过度依赖原型而忽视个体差异，警惕原型引发的刻板印象。',
+    feynmanSummary: '从一堆例子里归纳出共同本质，形成"这类东西"的抽象认识，脑中以原型或具体样例存储。',
     relatedPoints: ['cp-ltm', 'cp-pattern-recognition', 'cp-reasoning', 'cp-problem-solving'],
     prerequisites: ['cp-ltm'],
   },
@@ -383,6 +399,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) "下雨就带伞，今天下雨"推出带伞（肯定前件）；2) Wason 任务中常选"P"与"Q"卡而漏选"非 Q"；3) 医生诊断时倾向寻找支持自己假设的证据（确认偏差）。',
     practice:
       '做判断时刻意寻找证伪证据（选"非 Q"卡片）以对抗确认偏差；用三段论检验自己推理的逻辑链是否成立，避免被结论可信度带偏。',
+    feynmanSummary: '从已知推新结论：演绎从一般推特殊（结论必然），归纳从特殊推一般（结论或然）。',
     relatedPoints: ['cp-concept-formation', 'cp-problem-solving', 'cp-problem-barriers'],
     prerequisites: ['cp-concept-formation'],
   },
@@ -400,6 +417,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 解数学题先理解题意（表征）再选公式（搜索）；2) 迷路时从目的地反推路线（逆向搜索）；3) 用"水流类比电流"理解电路（类比迁移）。',
     practice:
       '遇难题先花时间重述问题（改变表征往往豁然开朗）；用手段-目的分析把目标拆解为子目标；积累典型案例以备类比迁移。',
+    feynmanSummary: '把目标拆成子目标，在解法空间里搜索路径，用穷举算法或经验启发式一步步走到答案。',
     relatedPoints: ['cp-reasoning', 'cp-problem-barriers', 'cp-concept-formation', 'cp-ltm'],
     prerequisites: ['cp-reasoning'],
   },
@@ -417,6 +435,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 需要撬钉子却想不到用尺子（功能固着）；2) 学了公式后所有题都套同一公式（心向）；3) 专家一眼看出题型，新手却从条件逐一尝试。',
     practice:
       '解题受挫时退一步问"还有什么其他用途/思路"；定期打破常规练习以弱化心向；学习新领域时既借鉴已有经验，也警惕过度套用旧框架。',
+    feynmanSummary: '卡壳常因为只看到物体常规用途（功能固着），或习惯性套用过去成功的旧思路（心向）。',
     relatedPoints: ['cp-problem-solving', 'cp-reasoning', 'cp-automatic-processing', 'cp-concept-formation'],
     prerequisites: ['cp-problem-solving'],
   },
@@ -436,6 +455,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) "我看见那个男人用望远镜"——句法歧义靠语境消解；2) 读小说时自动构建场景与人物关系；3) 听讲座记不住原话但记得要点。',
     practice:
       '阅读难文时先扫读建立语境（自上而下）再细读（自下而上）；觉察自己如何用背景知识填补文本省略的信息，并警惕这种"补全"可能造成误解。',
+    feynmanSummary: '听懂话不是逐字解码，而是用句法分析加已有知识主动建构出意义，语境帮你消歧补全。',
     relatedPoints: ['cp-language-production', 'cp-ltm', 'cp-top-down-bottom-up', 'cp-perception-organization'],
     prerequisites: ['cp-ltm', 'cp-top-down-bottom-up'],
   },
@@ -453,6 +473,7 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
       '1) 话到嘴头想不起词——概念已激活但语音编码失败；2) 口误"风把灯吹得发抖"说明思维超前于语音组织；3) 演讲前列要点即概念化阶段。',
     practice:
       '演讲或写作前先理清要表达的意念（概念化），再选词造句；分析自己的口误可了解言语产生各阶段如何运作，从而更有意识地组织表达。',
+    feynmanSummary: '说话分三步：先想清楚说什么，再选词造句组织语言，最后发音说出来，口误能暴露各阶段。',
     relatedPoints: ['cp-language-comprehension', 'cp-problem-solving', 'cp-concept-formation'],
     prerequisites: ['cp-language-comprehension'],
   },

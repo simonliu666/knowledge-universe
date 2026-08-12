@@ -55,6 +55,7 @@ export interface IKnowledgePoint {
   coreLogic: string;      // 核心逻辑
   lifeCase: string;       // 生活案例
   practice: string;       // 实操用法
+  feynmanSummary?: string; // 费曼法总结（用精简的话向新手解释这个知识点）
   relatedPoints: string[]; // 关联知识点ID
   prerequisites: string[]; // 前置知识点ID（空数组=无前置=首个节点）
 }
