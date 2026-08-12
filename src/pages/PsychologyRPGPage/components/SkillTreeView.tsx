@@ -86,7 +86,7 @@ export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }:
         setModalOpen(open)
         if (!open) setSelectedPoint(null)
       }}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col gap-0 p-0 mx-4 my-4">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col gap-0 p-0 rounded-2xl">
           {selectedPoint && (
             <>
               {/* 弹窗头部 */}
