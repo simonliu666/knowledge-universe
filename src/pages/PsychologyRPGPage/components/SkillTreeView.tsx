@@ -1,10 +1,11 @@
 import { useState, useMemo, useCallback } from "react"
 import { ChevronDown, ChevronUp, Lightbulb } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { SKILL_MODULES, getPointsByModule } from "@/data/knowledgePoints"
+import { SKILL_MODULES, getPointsByModule, getPointById } from "@/data/knowledgePoints"
 import type { IKnowledgePoint, IQARecord, IKnowledgeNote, NodeStatus } from "@/types"
 import { InlinePointDetail } from "./InlinePointDetail"
 import { DomainArchitectureView } from "./DomainArchitectureView"
+import { KnowledgeNetworkGraph } from "./KnowledgeNetworkGraph"
 import { cn } from "@/lib/utils"
 
 interface SkillTreeViewProps {
@@ -104,6 +105,20 @@ export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }:
         learnedPoints={learnedPoints}
         onModuleClick={(modId) => setActiveModule(modId)}
       />
+
+      {/* 知识点关联网络图（仅社会心理学展示） */}
+      {subdomainId === "social-psychology" && (
+        <KnowledgeNetworkGraph
+          learnedPoints={learnedPoints}
+          onNodeClick={(pointId) => {
+            const point = getPointById(pointId)
+            if (point) {
+              setActiveModule(point.module)
+              setExpandedPointId(pointId)
+            }
+          }}
+        />
+      )}
 
       {/* 模块Tab栏 */}
       <div className="flex flex-wrap items-center gap-2">
