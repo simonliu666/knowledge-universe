@@ -86,7 +86,7 @@ export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }:
         setModalOpen(open)
         if (!open) setSelectedPoint(null)
       }}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col gap-0 p-0">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col gap-0 p-0 mx-4 my-4">
           {selectedPoint && (
             <>
               {/* 弹窗头部 */}
@@ -105,7 +105,7 @@ export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }:
               </DialogHeader>
 
               {/* 弹窗内容（可滚动） */}
-              <div className="overflow-y-auto flex-1 max-h-[calc(90vh-100px)]">
+              <div className="overflow-y-auto flex-1 max-h-[calc(80vh-80px)]">
                 <InlinePointDetail
                   point={selectedPoint}
                   status={getNodeStatus(selectedPoint)}

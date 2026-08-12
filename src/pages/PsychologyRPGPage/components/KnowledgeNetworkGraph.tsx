@@ -171,8 +171,8 @@ export function KnowledgeNetworkGraph({ learnedPoints, onNodeClick }: KnowledgeN
       </div>
 
       {/* SVG 网络图 */}
-      <div className="relative overflow-x-auto">
-        <svg viewBox="0 0 720 470" className="w-full" style={{ minWidth: "600px" }}>
+      <div className="relative">
+        <svg viewBox="0 0 720 470" className="w-full" preserveAspectRatio="xMidYMid meet">
           <defs>
             {/* 跨模块箭头 */}
             <marker id="net-arr-cross" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
