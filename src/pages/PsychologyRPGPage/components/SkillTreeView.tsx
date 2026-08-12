@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { SKILL_MODULES, getPointsByModule } from "@/data/knowledgePoints"
 import type { IKnowledgePoint, IQARecord, IKnowledgeNote, NodeStatus } from "@/types"
 import { InlinePointDetail } from "./InlinePointDetail"
+import { DomainArchitectureView } from "./DomainArchitectureView"
 import { cn } from "@/lib/utils"
 
 interface SkillTreeViewProps {
@@ -97,6 +98,13 @@ export function SkillTreeView({ learnedPoints, onLearn, notesApi, subdomainId }:
 
   return (
     <div className="flex flex-col gap-3">
+      {/* 学科架构图 */}
+      <DomainArchitectureView
+        subdomainId={subdomainId}
+        learnedPoints={learnedPoints}
+        onModuleClick={(modId) => setActiveModule(modId)}
+      />
+
       {/* 模块Tab栏 */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex flex-wrap gap-1.5">
