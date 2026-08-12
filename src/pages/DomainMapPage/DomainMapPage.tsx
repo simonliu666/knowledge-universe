@@ -250,6 +250,11 @@ export default function DomainMapPage() {
             未解锁
           </div>
         </div>
+
+        {/* 部署更新时间 */}
+        <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-muted-foreground/50">
+          <span>部署于 {new Date(__BUILD_TIME__).toLocaleString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
+        </div>
       </div>
     </div>
   )
