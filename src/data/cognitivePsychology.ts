@@ -81,6 +81,16 @@ export const CP_SKILL_MODULES: ISkillModule[] = [
     pointIds: ['cp-language-comprehension', 'cp-language-production'],
     subdomain: "cognitive-psychology",
   },
+  {
+    id: 'cp-embodied',
+    name: '具身认知',
+    icon: '🫀',
+    color: 'hsl(160 70% 45%)',
+    description:
+      '认知不只在大脑中发生——身体、环境与互动共同塑造思维，挑战经典信息加工范式的前沿视角。',
+    pointIds: ['cp-embodied-cognition'],
+    subdomain: "cognitive-psychology",
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -476,6 +486,25 @@ export const CP_KNOWLEDGE_POINTS: IKnowledgePoint[] = [
     feynmanSummary: '说话分三步：先想清楚说什么，再选词造句组织语言，最后发音说出来，口误能暴露各阶段。',
     relatedPoints: ['cp-language-comprehension', 'cp-problem-solving', 'cp-concept-formation'],
     prerequisites: ['cp-language-comprehension'],
+  },
+  // ===== 模块 7：具身认知 =====
+  {
+    id: 'cp-embodied-cognition',
+    name: '具身认知',
+    module: 'cp-embodied',
+    moduleName: '具身认知',
+    icon: '🫀',
+    definition:
+      '具身认知主张认知并非纯大脑内部的信息加工，而是大脑、身体与环境三者互动的产物。身体的感觉运动经验深刻塑造了抽象思维和概念结构，认知是"具身的"（embodied）、"情境的"（situated）。',
+    coreLogic:
+      '经典认知心理学把大脑比作计算机——输入信息、加工、输出，身体只是"容器"。具身认知挑战这一范式，提出三条核心主张：① 认知依赖身体的物理属性——身体的结构和感官体验直接参与思维；② 认知是情境的——认知发生在大脑-身体-环境的实时互动中，不能脱离环境单独研究；③ 认知是为行动的——思维的根本目的是指导身体行动，而非纯粹的抽象运算。概念隐喻理论（Lakoff & Johnson）是关键证据：人类几乎所有抽象概念都借身体经验构建——"温暖"源于体温体验、"沉重"源于肌肉感受、"高"源于空间方位。经典实验：捧热杯子的人评价他人更"温暖"（Williams & Bargh, 2008）；点头的人比摇头的人更容易被说服（Wells & Petty, 1980）；向前推身体时对中性图片评价更负面（推进=排斥）。',
+    lifeCase:
+      '1) 手捧热饮时觉得陌生人更友善——身体温度体验影响社会判断；2) 考试前坐直挺胸的人比蜷缩的人更有自信——身体姿态影响心理状态；3) 拿重物的人觉得议题更重要——重量感受影响重要性判断；4) "这个决定很沉重""他很高尚""关系很亲密"——抽象概念全部借用身体经验表达。',
+    practice:
+      '注意身体状态对判断的影响——做重要决策前调整身体姿态（挺胸、深呼吸），避免因身体不适做出偏误判断。理解"抽象概念来自身体经验"后，有意识地用身体体验辅助学习——比如动手操作比纯看更容易记住。警惕营销中的具身效应——咖啡店用暖色调和热饮让你觉得品牌更"温暖"。',
+    feynmanSummary: '脑子不是在真空中思考的——你的身体感受（温度、重量、姿态）会直接影响你的判断和想法。',
+    relatedPoints: ['cp-top-down-bottom-up', 'cp-perception-concept', 'cp-attention-capacity'],
+    prerequisites: ['cp-perception-concept'],
   },
 ];
 

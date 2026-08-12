@@ -92,11 +92,19 @@ const ARCHITECTURES: Record<string, DomainArch> = {
           { name: "语言", moduleId: "cp-language", color: "hsl(155 70% 50%)" },
         ],
       },
+      {
+        name: "前沿拓展层",
+        subtitle: "超越经典信息加工范式",
+        modules: [
+          { name: "具身认知", moduleId: "cp-embodied", color: "hsl(160 70% 45%)" },
+        ],
+      },
     ],
     flows: [
-      { label: "经过注意选择和模式识别的信息进入加工存储系统", highlight: true },
+      { label: "经过注意选择和模式识别的信息进入加工存储系统" },
+      { label: "经典信息加工模型之上，具身认知提出身体与环境同样塑造思维", highlight: true },
     ],
-    logicChain: "知觉（接收信息）→ 注意（筛选信息）→ 记忆（存储信息）→ 思维（处理信息）→ 语言（表达信息）",
+    logicChain: "知觉（接收信息）→ 注意（筛选信息）→ 记忆（存储信息）→ 思维（处理信息）→ 语言（表达信息）→ 具身认知（身体参与思维）",
   },
   "personality-psychology": {
     title: "人格心理学 · 学科架构",
