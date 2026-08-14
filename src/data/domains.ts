@@ -342,6 +342,70 @@ export const DOMAINS: IKnowledgeDomain[] = [
       },
     ],
   },
+  {
+    id: "musk-empire",
+    name: "马斯克企业版图",
+    icon: "🚀",
+    description: "特斯拉、SpaceX、xAI、Neuralink——解码马斯克商业帝国的财报、战略与第一性原理",
+    status: "active",
+    color: "hsl(210 75% 55%)",
+    totalPoints: 37,
+    subDomains: [
+      {
+        id: "tesla-empire",
+        name: "特斯拉帝国",
+        description: "电动汽车+能源+AI三合一平台——商业模式、财报、自动驾驶与制造战略",
+        status: "active",
+        totalPoints: 10,
+        route: "/learn/tesla-empire",
+        modules: [
+          { id: "ts-finance", name: "商业模式与财报", description: "三大支柱、2025财报与万亿估值逻辑", totalPoints: 3 },
+          { id: "ts-energy", name: "能源业务", description: "Megapack、Powerwall与4680电池", totalPoints: 2 },
+          { id: "ts-autonomy", name: "自动驾驶与机器人", description: "FSD、Robotaxi与Optimus人形机器人", totalPoints: 3 },
+          { id: "ts-manufacturing", name: "制造与供应链", description: "超级工厂网络与垂直整合战略", totalPoints: 2 },
+        ],
+      },
+      {
+        id: "spacex",
+        name: "太空探索",
+        description: "可回收火箭经济学、星链互联网与火星殖民——SpaceX的商业逻辑与终局愿景",
+        status: "active",
+        totalPoints: 10,
+        route: "/learn/spacex",
+        modules: [
+          { id: "sp-launch", name: "火箭与发射", description: "Falcon 9经济学、Starship星舰与重型猎鹰", totalPoints: 3 },
+          { id: "sp-starlink", name: "星链业务", description: "卫星互联网商业逻辑与战略护城河", totalPoints: 3 },
+          { id: "sp-strategy", name: "财务与战略", description: "财报、IPO战略与火星殖民规划", totalPoints: 4 },
+        ],
+      },
+      {
+        id: "xai-x",
+        name: "AI与社交帝国",
+        description: "xAI大模型、Grok、X平台——AI与社交融合的数据飞轮战略",
+        status: "active",
+        totalPoints: 9,
+        route: "/learn/xai-x",
+        modules: [
+          { id: "xai-model", name: "xAI与Grok", description: "大模型、商业模式与Colossus算力", totalPoints: 3 },
+          { id: "x-platform", name: "X平台", description: "收购案、广告衰退与万能应用愿景", totalPoints: 3 },
+          { id: "xai-strategy", name: "融合战略与财务", description: "收购X的数据飞轮与AI三强竞争", totalPoints: 3 },
+        ],
+      },
+      {
+        id: "frontier-ventures",
+        name: "前沿探索",
+        description: "Neuralink脑机接口、Boring Company地下交通与企业协同版图全景",
+        status: "active",
+        totalPoints: 8,
+        route: "/learn/frontier-ventures",
+        modules: [
+          { id: "nl-brain", name: "Neuralink脑机接口", description: "技术路线、融资历程与临床应用", totalPoints: 3 },
+          { id: "bc-tunnel", name: "The Boring Company", description: "地下交通愿景与商业模式", totalPoints: 2 },
+          { id: "musk-synergy", name: "企业协同版图", description: "帝国全景、第一性原理与风险分析", totalPoints: 3 },
+        ],
+      },
+    ],
+  },
 ]
 
 /** 获取已开放的领域 */

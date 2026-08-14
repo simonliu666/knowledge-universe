@@ -347,6 +347,182 @@ export const ACHIEVEMENTS: IAchievement[] = [
     subdomain: "industry-laws-trends",
     condition: { type: "learnAll" },
   },
+
+  // ════════════════════════════════════════════
+  // 特斯拉帝国专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "ts-first-step",
+    name: "电门启动",
+    description: "学习你的第一个特斯拉知识点",
+    icon: "⚡",
+    subdomain: "tesla-empire",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "ts-explorer",
+    name: "特斯拉探索者",
+    description: "学习5个特斯拉知识点",
+    icon: "🔋",
+    subdomain: "tesla-empire",
+    condition: { type: "learnCount", value: 5 },
+  },
+  {
+    id: "ts-finance-master",
+    name: "财报解码者",
+    description: "完成「商业模式与财报」模块",
+    icon: "💰",
+    subdomain: "tesla-empire",
+    condition: { type: "learnModule", moduleId: "ts-finance" },
+  },
+  {
+    id: "ts-autonomy-master",
+    name: "自动驾驶先锋",
+    description: "完成「自动驾驶与机器人」模块",
+    icon: "🤖",
+    subdomain: "tesla-empire",
+    condition: { type: "learnModule", moduleId: "ts-autonomy" },
+  },
+  {
+    id: "ts-scholar",
+    name: "特斯拉博学者",
+    description: "学习全部特斯拉帝国知识点",
+    icon: "🏆",
+    subdomain: "tesla-empire",
+    condition: { type: "learnAll" },
+  },
+
+  // ════════════════════════════════════════════
+  // 太空探索专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "sp-first-step",
+    name: "点火序列",
+    description: "学习你的第一个SpaceX知识点",
+    icon: "🔥",
+    subdomain: "spacex",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "sp-explorer",
+    name: "轨道探索者",
+    description: "学习5个SpaceX知识点",
+    icon: "🛰️",
+    subdomain: "spacex",
+    condition: { type: "learnCount", value: 5 },
+  },
+  {
+    id: "sp-launch-master",
+    name: "火箭工程师",
+    description: "完成「火箭与发射」模块",
+    icon: "🚀",
+    subdomain: "spacex",
+    condition: { type: "learnModule", moduleId: "sp-launch" },
+  },
+  {
+    id: "sp-starlink-master",
+    name: "星链织网者",
+    description: "完成「星链业务」模块",
+    icon: "🌐",
+    subdomain: "spacex",
+    condition: { type: "learnModule", moduleId: "sp-starlink" },
+  },
+  {
+    id: "sp-scholar",
+    name: "太空博学者",
+    description: "学习全部SpaceX知识点",
+    icon: "🌌",
+    subdomain: "spacex",
+    condition: { type: "learnAll" },
+  },
+
+  // ════════════════════════════════════════════
+  // AI与社交帝国专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "xai-first-step",
+    name: "模型启动",
+    description: "学习你的第一个xAI知识点",
+    icon: "🧠",
+    subdomain: "xai-x",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "xai-explorer",
+    name: "AI探索者",
+    description: "学习3个xAI知识点",
+    icon: "🔮",
+    subdomain: "xai-x",
+    condition: { type: "learnCount", value: 3 },
+  },
+  {
+    id: "xai-model-master",
+    name: "大模型架构师",
+    description: "完成「xAI与Grok」模块",
+    icon: "⚙️",
+    subdomain: "xai-x",
+    condition: { type: "learnModule", moduleId: "xai-model" },
+  },
+  {
+    id: "xai-platform-master",
+    name: "平台观察家",
+    description: "完成「X平台」模块",
+    icon: "✖️",
+    subdomain: "xai-x",
+    condition: { type: "learnModule", moduleId: "x-platform" },
+  },
+  {
+    id: "xai-scholar",
+    name: "AI帝国博学者",
+    description: "学习全部AI与社交帝国知识点",
+    icon: "🎓",
+    subdomain: "xai-x",
+    condition: { type: "learnAll" },
+  },
+
+  // ════════════════════════════════════════════
+  // 前沿探索专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "fv-first-step",
+    name: "前沿触角",
+    description: "学习你的第一个前沿探索知识点",
+    icon: "🔬",
+    subdomain: "frontier-ventures",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "fv-explorer",
+    name: "跨界探索者",
+    description: "学习3个前沿探索知识点",
+    icon: "🧭",
+    subdomain: "frontier-ventures",
+    condition: { type: "learnCount", value: 3 },
+  },
+  {
+    id: "fv-brain-master",
+    name: "脑机解码者",
+    description: "完成「Neuralink脑机接口」模块",
+    icon: "🧬",
+    subdomain: "frontier-ventures",
+    condition: { type: "learnModule", moduleId: "nl-brain" },
+  },
+  {
+    id: "fv-synergy-master",
+    name: "帝国版图师",
+    description: "完成「企业协同版图」模块",
+    icon: "🗺️",
+    subdomain: "frontier-ventures",
+    condition: { type: "learnModule", moduleId: "musk-synergy" },
+  },
+  {
+    id: "fv-scholar",
+    name: "前沿博学者",
+    description: "学习全部前沿探索知识点",
+    icon: "🏆",
+    subdomain: "frontier-ventures",
+    condition: { type: "learnAll" },
+  },
 ]
 
 /** 成就总数 */

@@ -3,17 +3,19 @@ import { SP_SKILL_MODULES, SP_NEW_KNOWLEDGE_POINTS } from "@/data/socialPsycholo
 import { CP_SKILL_MODULES, CP_KNOWLEDGE_POINTS } from "@/data/cognitivePsychology"
 import { PP_SKILL_MODULES, PP_KNOWLEDGE_POINTS } from "@/data/personalityPsychology"
 import { EG_SKILL_MODULES, EG_KNOWLEDGE_POINTS } from "@/data/electronicGaming"
+import { MK_SKILL_MODULES, MK_KNOWLEDGE_POINTS } from "@/data/muskCompanies"
 
 // ============================================================
-// 统一知识库 — 整合心理学（社会/认知/人格）+ 电子游戏
+// 统一知识库 — 整合心理学 + 电子游戏 + 马斯克企业
 // ============================================================
 
-/** 所有技能模块（四大领域） */
+/** 所有技能模块（五大领域） */
 export const SKILL_MODULES: ISkillModule[] = [
   ...SP_SKILL_MODULES,
   ...CP_SKILL_MODULES,
   ...PP_SKILL_MODULES,
   ...EG_SKILL_MODULES,
+  ...MK_SKILL_MODULES,
 ]
 
 /** 原有19个社会心理学知识点（模块ID已更新为新结构） */
@@ -301,13 +303,14 @@ const EXISTING_SP_POINTS: IKnowledgePoint[] = [
   },
 ]
 
-/** 所有知识点（四大领域统一） */
+/** 所有知识点（五大领域统一） */
 export const KNOWLEDGE_POINTS: IKnowledgePoint[] = [
   ...EXISTING_SP_POINTS,
   ...SP_NEW_KNOWLEDGE_POINTS,
   ...CP_KNOWLEDGE_POINTS,
   ...PP_KNOWLEDGE_POINTS,
   ...EG_KNOWLEDGE_POINTS,
+  ...MK_KNOWLEDGE_POINTS,
 ]
 
 /** 根据ID获取知识点 */
