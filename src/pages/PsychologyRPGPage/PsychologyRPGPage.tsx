@@ -82,7 +82,7 @@ export default function PsychologyRPGPage() {
       <div className="relative z-10 min-h-screen w-full">
         <div className="mx-auto max-w-5xl p-4 md:p-6">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/", { state: { fromSubdomain: subdomainId } })}
             className="group flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
@@ -104,7 +104,7 @@ export default function PsychologyRPGPage() {
       <div className="mx-auto max-w-5xl space-y-4 p-4 md:p-6">
         {/* 返回知识宇宙 */}
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/", { state: { fromSubdomain: subdomainId } })}
           className="group flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
