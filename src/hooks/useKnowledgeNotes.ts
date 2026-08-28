@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react"
 import type { IKnowledgeNote, IQARecord } from "@/types"
+import { CLOUD_APPLIED_EVENT } from "@/lib/cloudSync"
 
 const STORAGE_KEY = "__app_psychology_rpg_notes"
 const QA_STORAGE_KEY = "__app_psychology_rpg_qa_records"
@@ -68,6 +69,16 @@ export function useKnowledgeNotes(): KnowledgeNotesAPI {
   useEffect(() => {
     saveQARecords(qaRecords)
   }, [qaRecords])
+
+  // 云同步应用远端数据后，从 localStorage 重载
+  useEffect(() => {
+    const handler = () => {
+      setNotes(loadNotes())
+      setQARecords(loadQARecords())
+    }
+    window.addEventListener(CLOUD_APPLIED_EVENT, handler)
+    return () => window.removeEventListener(CLOUD_APPLIED_EVENT, handler)
+  }, [])
 
   const getNotesByPoint = useCallback(
     (pointId: string) => notes.filter((n) => n.pointId === pointId),

@@ -6,6 +6,7 @@ import type {
   IObedienceDefense,
   IBiasPractice,
 } from "@/types"
+import { CLOUD_APPLIED_EVENT } from "@/lib/cloudSync"
 
 const STORAGE_KEY = "__app_psychology_rpg_tool_records"
 
@@ -57,6 +58,13 @@ export function useToolRecords(): ToolRecordsAPI {
   useEffect(() => {
     saveRecords(records)
   }, [records])
+
+  // 云同步应用远端数据后，从 localStorage 重载
+  useEffect(() => {
+    const handler = () => setRecords(loadRecords())
+    window.addEventListener(CLOUD_APPLIED_EVENT, handler)
+    return () => window.removeEventListener(CLOUD_APPLIED_EVENT, handler)
+  }, [])
 
   const addABCRecord = useCallback((data: Omit<IABCRecord, "id" | "createdAt">) => {
     setRecords((prev) => ({
