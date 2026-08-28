@@ -648,6 +648,7 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onPointClic
                     {layer.modules.map((mod) => {
                       const prog = getModuleProgress(mod.moduleId)
                       const isComplete = prog.total > 0 && prog.learned === prog.total
+                      const isPartial = prog.learned > 0 && prog.learned < prog.total
                       const isExpanded = mod.moduleId && expandedModules.has(mod.moduleId)
                       const modPoints = getModulePoints(mod.moduleId)
 
@@ -658,9 +659,11 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onPointClic
                             "relative overflow-hidden rounded-lg border transition-all",
                             isComplete
                               ? "border-success/40 bg-success/5"
-                              : isExpanded
-                                ? "border-primary/40 bg-card"
-                                : "border-border/60 bg-card hover:border-primary/30"
+                              : isPartial
+                                ? "border-warning/40 bg-warning/5"
+                                : isExpanded
+                                  ? "border-primary/40 bg-card"
+                                  : "border-border/60 bg-card hover:border-primary/30"
                           )}
                         >
                           {/* 左侧色条 */}
@@ -679,7 +682,9 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onPointClic
                             {prog.total > 0 && (
                               <span className={cn(
                                 "text-xs font-bold",
-                                isComplete ? "text-success" : "text-muted-foreground"
+                                isComplete && "text-success",
+                                isPartial && "text-warning-text",
+                                !isComplete && !isPartial && "text-muted-foreground"
                               )}>
                                 {prog.learned}/{prog.total}
                               </span>

@@ -337,24 +337,30 @@ export default function DomainMapPage() {
                                 const modLearned = skillMod
                                   ? skillMod.pointIds.filter((pid) => progress.learnedPoints.includes(pid)).length
                                   : 0
-                                const modCompleted = modLearned > 0
+                                const modTotal = mod.totalPoints
+                                const modStatus: "complete" | "partial" | "none" =
+                                  modLearned === 0 ? "none" : modLearned >= modTotal ? "complete" : "partial"
 
                                 return (
                                   <div key={mod.id} className="flex items-center gap-2 text-xs">
                                     <span
                                       className={cn(
                                         "h-1.5 w-1.5 shrink-0 rounded-full transition-colors",
-                                        modCompleted ? "bg-success" : "bg-muted-foreground/25"
+                                        modStatus === "complete" && "bg-success",
+                                        modStatus === "partial" && "bg-warning",
+                                        modStatus === "none" && "bg-muted-foreground/25"
                                       )}
                                     />
                                     <span className={cn(
                                       "flex-1",
-                                      modCompleted ? "text-foreground" : "text-muted-foreground"
+                                      modStatus === "complete" && "text-foreground",
+                                      modStatus === "partial" && "text-foreground/80",
+                                      modStatus === "none" && "text-muted-foreground"
                                     )}>
                                       {mod.name}
                                     </span>
                                     <span className="text-muted-foreground/70">
-                                      {modLearned > 0 ? `${modLearned}/` : ""}{mod.totalPoints}
+                                      {modLearned > 0 ? `${modLearned}/` : ""}{modTotal}
                                     </span>
                                   </div>
                                 )
@@ -383,7 +389,11 @@ export default function DomainMapPage() {
         <div className="flex flex-wrap items-center gap-4 rounded-xl border border-border/60 bg-card/50 px-4 py-3 text-xs text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-success" />
-            已点亮
+            已完成
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-warning" />
+            学习中
           </div>
           <div className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/25" />
