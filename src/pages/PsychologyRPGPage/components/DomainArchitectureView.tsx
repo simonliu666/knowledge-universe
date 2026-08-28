@@ -400,6 +400,167 @@ const ARCHITECTURES: Record<string, DomainArch> = {
     ],
     logicChain: "Neuralink（人机融合）→ Boring Company（地下交通）→ 版图全景（协同与风险）",
   },
+
+  // ════════════════════════════════════════════
+  // 经济学
+  // ════════════════════════════════════════════
+  "core-economics": {
+    title: "核心经济学 · 学科架构",
+    description: "经济学从微观个体决策到宏观整体运行——微观是「看树木」，宏观是「看森林」，两者互补构成经济分析的基础框架",
+    layers: [
+      {
+        name: "微观基础层",
+        subtitle: "个体决策与市场机制",
+        modules: [
+          { name: "微观经济学", moduleId: "ec-micro", color: "hsl(150 60% 45%)" },
+        ],
+      },
+      {
+        name: "宏观运行层",
+        subtitle: "整体经济与政策调控",
+        modules: [
+          { name: "宏观经济学", moduleId: "ec-macro", color: "hsl(200 65% 50%)" },
+        ],
+      },
+    ],
+    flows: [
+      { label: "微观分析个体决策如何通过市场汇总为宏观现象" },
+      { label: "宏观政策（货币/财政）反过来影响微观个体的决策环境", highlight: true },
+    ],
+    logicChain: "供需与价格（微观）→ GDP与通胀（宏观）→ 政策调控（宏观影响微观）",
+  },
+  "applied-economics": {
+    title: "应用经济学 · 学科架构",
+    description: "行为经济学揭示人类决策的非理性，博弈论分析策略互动——两者从不同角度挑战传统经济学的「理性人」假设",
+    layers: [
+      {
+        name: "行为层",
+        subtitle: "心理偏差与决策非理性",
+        modules: [
+          { name: "行为经济学", moduleId: "ec-behavioral", color: "hsl(280 55% 55%)" },
+        ],
+      },
+      {
+        name: "策略层",
+        subtitle: "互动决策与均衡分析",
+        modules: [
+          { name: "博弈论", moduleId: "ec-game-theory", color: "hsl(35 75% 55%)" },
+        ],
+      },
+    ],
+    flows: [
+      { label: "行为经济学解释个体为什么偏离理性，博弈论解释多人互动中的策略选择" },
+      { label: "两者结合形成「有限理性的策略互动」——更贴近现实的经济分析", highlight: true },
+    ],
+    logicChain: "认知偏差（行为）→ 策略互动（博弈）→ 有限理性下的均衡",
+  },
+
+  // ════════════════════════════════════════════
+  // 语言学
+  // ════════════════════════════════════════════
+  "core-linguistics": {
+    title: "核心语言学 · 学科架构",
+    description: "语言学从语音到意义层层递进——语音学管「声音」，句法学管「结构」，语义学管「意义」，构成语言的形式分析体系",
+    layers: [
+      {
+        name: "语音层",
+        subtitle: "语言的物质载体",
+        modules: [
+          { name: "语音学", moduleId: "phonetics", color: "hsl(0 60% 50%)" },
+        ],
+      },
+      {
+        name: "结构层",
+        subtitle: "符号的组织规则",
+        modules: [
+          { name: "句法学", moduleId: "syntax", color: "hsl(210 60% 50%)" },
+        ],
+      },
+      {
+        name: "意义层",
+        subtitle: "符号承载的内容",
+        modules: [
+          { name: "语义学", moduleId: "semantics", color: "hsl(280 50% 55%)" },
+        ],
+      },
+    ],
+    flows: [
+      { label: "语音组成词句（句法组织），词句表达意义（语义解读）" },
+      { label: "三层从物质到结构到意义，逐层抽象，构成语言的完整形式系统", highlight: true },
+    ],
+    logicChain: "语音（声音）→ 句法（结构）→ 语义（意义）",
+  },
+  "applied-linguistics": {
+    title: "应用语言学 · 学科架构",
+    description: "语用学研究语境中的语言使用——不只是说了什么，更关注为什么这么说、听者如何理解，是语言学的「使用层」",
+    layers: [
+      {
+        name: "语用层",
+        subtitle: "语境中的意义构建",
+        modules: [
+          { name: "语用学", moduleId: "pragmatics", color: "hsl(150 55% 45%)" },
+        ],
+      },
+    ],
+    flows: [
+      { label: "语义学研究字面意义，语用学研究语境中的实际意义——说话人意图、听者推理、社会规范", highlight: true },
+    ],
+    logicChain: "字面意义（语义）→ 语境意义（语用）→ 交际效果",
+  },
+
+  // ════════════════════════════════════════════
+  // 社会学
+  // ════════════════════════════════════════════
+  "social-structure-culture": {
+    title: "社会结构与文化 · 学科架构",
+    description: "社会学从静态结构切入——社会如何分层、角色如何分配、制度如何运行、文化如何传承，构成社会的「 anatomy 」",
+    layers: [
+      {
+        name: "结构层",
+        subtitle: "社会的骨架与组织",
+        modules: [
+          { name: "社会结构", moduleId: "social-structure", color: "hsl(210 55% 48%)" },
+        ],
+      },
+      {
+        name: "文化层",
+        subtitle: "社会的软件与传承",
+        modules: [
+          { name: "文化与社会", moduleId: "culture", color: "hsl(280 50% 55%)" },
+        ],
+      },
+    ],
+    flows: [
+      { label: "结构是社会的硬件（谁在什么位置），文化是社会的软件（人们信什么、怎么做）" },
+      { label: "结构塑造文化，文化反过来维系结构——两者构成社会的稳定基础", highlight: true },
+    ],
+    logicChain: "阶层与角色（结构）→ 价值观与规范（文化）→ 社会再生产",
+  },
+  "social-dynamics": {
+    title: "社会动态 · 学科架构",
+    description: "社会学从动态变化切入——社会如何现代化、全球化如何冲击本土、集体行动如何改变规则、越轨如何被控制",
+    layers: [
+      {
+        name: "变迁层",
+        subtitle: "社会的运动与演化",
+        modules: [
+          { name: "社会变迁", moduleId: "social-change", color: "hsl(150 55% 45%)" },
+        ],
+      },
+      {
+        name: "控制层",
+        subtitle: "秩序与偏差的博弈",
+        modules: [
+          { name: "越轨与社会控制", moduleId: "deviance", color: "hsl(0 55% 50%)" },
+        ],
+      },
+    ],
+    flows: [
+      { label: "变迁产生新的越轨形式，社会控制回应以新的规范和制裁" },
+      { label: "动态平衡：变迁打破秩序→控制重建秩序→新变迁再次冲击——社会就在这个循环中演化", highlight: true },
+    ],
+    logicChain: "现代化与全球化（变迁）→ 规范失效与越轨出现 → 社会控制回应 → 新秩序",
+  },
 }
 
 // ============================================================

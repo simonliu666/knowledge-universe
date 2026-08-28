@@ -523,6 +523,270 @@ export const ACHIEVEMENTS: IAchievement[] = [
     subdomain: "frontier-ventures",
     condition: { type: "learnAll" },
   },
+
+  // ════════════════════════════════════════════
+  // 核心经济学专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "ec-core-first-step",
+    name: "供需入门",
+    description: "学习你的第一个核心经济学知识点",
+    icon: "📈",
+    subdomain: "core-economics",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "ec-core-explorer",
+    name: "经济探索者",
+    description: "学习5个核心经济学知识点",
+    icon: "📊",
+    subdomain: "core-economics",
+    condition: { type: "learnCount", value: 5 },
+  },
+  {
+    id: "ec-micro-master",
+    name: "微观分析师",
+    description: "完成「微观经济学」模块",
+    icon: "🔍",
+    subdomain: "core-economics",
+    condition: { type: "learnModule", moduleId: "ec-micro" },
+  },
+  {
+    id: "ec-macro-master",
+    name: "宏观分析师",
+    description: "完成「宏观经济学」模块",
+    icon: "🏛️",
+    subdomain: "core-economics",
+    condition: { type: "learnModule", moduleId: "ec-macro" },
+  },
+  {
+    id: "ec-core-scholar",
+    name: "核心经济博学者",
+    description: "学习全部核心经济学知识点",
+    icon: "🎓",
+    subdomain: "core-economics",
+    condition: { type: "learnAll" },
+  },
+
+  // ════════════════════════════════════════════
+  // 应用经济学专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "ec-app-first-step",
+    name: "行为初探",
+    description: "学习你的第一个应用经济学知识点",
+    icon: "🧠",
+    subdomain: "applied-economics",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "ec-app-explorer",
+    name: "应用探索者",
+    description: "学习3个应用经济学知识点",
+    icon: "🎲",
+    subdomain: "applied-economics",
+    condition: { type: "learnCount", value: 3 },
+  },
+  {
+    id: "ec-behavioral-master",
+    name: "行为解码者",
+    description: "完成「行为经济学」模块",
+    icon: "💭",
+    subdomain: "applied-economics",
+    condition: { type: "learnModule", moduleId: "ec-behavioral" },
+  },
+  {
+    id: "ec-game-master",
+    name: "博弈战略家",
+    description: "完成「博弈论」模块",
+    icon: "♟️",
+    subdomain: "applied-economics",
+    condition: { type: "learnModule", moduleId: "ec-game-theory" },
+  },
+  {
+    id: "ec-app-scholar",
+    name: "应用经济博学者",
+    description: "学习全部应用经济学知识点",
+    icon: "🏆",
+    subdomain: "applied-economics",
+    condition: { type: "learnAll" },
+  },
+
+  // ════════════════════════════════════════════
+  // 核心语言学专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "li-core-first-step",
+    name: "语言入门",
+    description: "学习你的第一个核心语言学知识点",
+    icon: "🔊",
+    subdomain: "core-linguistics",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "li-core-explorer",
+    name: "语言探索者",
+    description: "学习5个核心语言学知识点",
+    icon: "📖",
+    subdomain: "core-linguistics",
+    condition: { type: "learnCount", value: 5 },
+  },
+  {
+    id: "li-phonetics-master",
+    name: "语音分析师",
+    description: "完成「语音学」模块",
+    icon: "🗣️",
+    subdomain: "core-linguistics",
+    condition: { type: "learnModule", moduleId: "phonetics" },
+  },
+  {
+    id: "li-syntax-master",
+    name: "句法架构师",
+    description: "完成「句法学」模块",
+    icon: "🌳",
+    subdomain: "core-linguistics",
+    condition: { type: "learnModule", moduleId: "syntax" },
+  },
+  {
+    id: "li-semantics-master",
+    name: "语义解码者",
+    description: "完成「语义学」模块",
+    icon: "💭",
+    subdomain: "core-linguistics",
+    condition: { type: "learnModule", moduleId: "semantics" },
+  },
+  {
+    id: "li-core-scholar",
+    name: "核心语言博学者",
+    description: "学习全部核心语言学知识点",
+    icon: "🎓",
+    subdomain: "core-linguistics",
+    condition: { type: "learnAll" },
+  },
+
+  // ════════════════════════════════════════════
+  // 应用语言学专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "li-app-first-step",
+    name: "语用入门",
+    description: "学习你的第一个应用语言学知识点",
+    icon: "💬",
+    subdomain: "applied-linguistics",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "li-app-explorer",
+    name: "语用探索者",
+    description: "学习3个应用语言学知识点",
+    icon: "🗨️",
+    subdomain: "applied-linguistics",
+    condition: { type: "learnCount", value: 3 },
+  },
+  {
+    id: "li-pragmatics-master",
+    name: "语用大师",
+    description: "完成「语用学」模块",
+    icon: "🎭",
+    subdomain: "applied-linguistics",
+    condition: { type: "learnModule", moduleId: "pragmatics" },
+  },
+  {
+    id: "li-app-scholar",
+    name: "应用语言博学者",
+    description: "学习全部应用语言学知识点",
+    icon: "🏆",
+    subdomain: "applied-linguistics",
+    condition: { type: "learnAll" },
+  },
+
+  // ════════════════════════════════════════════
+  // 社会结构与文化专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "so-sc-first-step",
+    name: "社会入门",
+    description: "学习你的第一个社会结构与文化知识点",
+    icon: "🌐",
+    subdomain: "social-structure-culture",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "so-sc-explorer",
+    name: "社会探索者",
+    description: "学习3个社会结构与文化知识点",
+    icon: "🏗️",
+    subdomain: "social-structure-culture",
+    condition: { type: "learnCount", value: 3 },
+  },
+  {
+    id: "so-structure-master",
+    name: "结构解码者",
+    description: "完成「社会结构」模块",
+    icon: "🏛️",
+    subdomain: "social-structure-culture",
+    condition: { type: "learnModule", moduleId: "social-structure" },
+  },
+  {
+    id: "so-culture-master",
+    name: "文化探索家",
+    description: "完成「文化与社会」模块",
+    icon: "🎭",
+    subdomain: "social-structure-culture",
+    condition: { type: "learnModule", moduleId: "culture" },
+  },
+  {
+    id: "so-sc-scholar",
+    name: "社会结构博学者",
+    description: "学习全部社会结构与文化知识点",
+    icon: "🎓",
+    subdomain: "social-structure-culture",
+    condition: { type: "learnAll" },
+  },
+
+  // ════════════════════════════════════════════
+  // 社会动态专属成就
+  // ════════════════════════════════════════════
+  {
+    id: "so-sd-first-step",
+    name: "动态入门",
+    description: "学习你的第一个社会动态知识点",
+    icon: "🔄",
+    subdomain: "social-dynamics",
+    condition: { type: "learnCount", value: 1 },
+  },
+  {
+    id: "so-sd-explorer",
+    name: "动态探索者",
+    description: "学习3个社会动态知识点",
+    icon: "📡",
+    subdomain: "social-dynamics",
+    condition: { type: "learnCount", value: 3 },
+  },
+  {
+    id: "so-change-master",
+    name: "变迁分析师",
+    description: "完成「社会变迁」模块",
+    icon: "🌍",
+    subdomain: "social-dynamics",
+    condition: { type: "learnModule", moduleId: "social-change" },
+  },
+  {
+    id: "so-deviance-master",
+    name: "越轨解码者",
+    description: "完成「越轨与社会控制」模块",
+    icon: "⚖️",
+    subdomain: "social-dynamics",
+    condition: { type: "learnModule", moduleId: "deviance" },
+  },
+  {
+    id: "so-sd-scholar",
+    name: "社会动态博学者",
+    description: "学习全部社会动态知识点",
+    icon: "🏆",
+    subdomain: "social-dynamics",
+    condition: { type: "learnAll" },
+  },
 ]
 
 /** 成就总数 */

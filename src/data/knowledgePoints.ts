@@ -4,18 +4,24 @@ import { CP_SKILL_MODULES, CP_KNOWLEDGE_POINTS } from "@/data/cognitivePsycholog
 import { PP_SKILL_MODULES, PP_KNOWLEDGE_POINTS } from "@/data/personalityPsychology"
 import { EG_SKILL_MODULES, EG_KNOWLEDGE_POINTS } from "@/data/electronicGaming"
 import { MK_SKILL_MODULES, MK_KNOWLEDGE_POINTS } from "@/data/muskCompanies"
+import { EC_SKILL_MODULES, EC_KNOWLEDGE_POINTS } from "@/data/economics"
+import { LG_SKILL_MODULES, LG_KNOWLEDGE_POINTS } from "@/data/linguistics"
+import { SO_SKILL_MODULES, SO_KNOWLEDGE_POINTS } from "@/data/sociology"
 
 // ============================================================
-// 统一知识库 — 整合心理学 + 电子游戏 + 马斯克企业
+// 统一知识库 — 整合心理学 + 电子游戏 + 马斯克企业 + 经济学 + 语言学 + 社会学
 // ============================================================
 
-/** 所有技能模块（五大领域） */
+/** 所有技能模块（八大领域） */
 export const SKILL_MODULES: ISkillModule[] = [
   ...SP_SKILL_MODULES,
   ...CP_SKILL_MODULES,
   ...PP_SKILL_MODULES,
   ...EG_SKILL_MODULES,
   ...MK_SKILL_MODULES,
+  ...EC_SKILL_MODULES,
+  ...LG_SKILL_MODULES,
+  ...SO_SKILL_MODULES,
 ]
 
 /** 原有19个社会心理学知识点（模块ID已更新为新结构） */
@@ -303,7 +309,7 @@ const EXISTING_SP_POINTS: IKnowledgePoint[] = [
   },
 ]
 
-/** 所有知识点（五大领域统一） */
+/** 所有知识点（八大领域统一） */
 export const KNOWLEDGE_POINTS: IKnowledgePoint[] = [
   ...EXISTING_SP_POINTS,
   ...SP_NEW_KNOWLEDGE_POINTS,
@@ -311,6 +317,9 @@ export const KNOWLEDGE_POINTS: IKnowledgePoint[] = [
   ...PP_KNOWLEDGE_POINTS,
   ...EG_KNOWLEDGE_POINTS,
   ...MK_KNOWLEDGE_POINTS,
+  ...EC_KNOWLEDGE_POINTS,
+  ...LG_KNOWLEDGE_POINTS,
+  ...SO_KNOWLEDGE_POINTS,
 ]
 
 /** 根据ID获取知识点 */
@@ -432,5 +441,53 @@ export const SUBDOMAINS = [
     description: "Neuralink脑机接口、Boring Company地下交通与企业协同版图全景",
     color: "hsl(150 70% 50%)",
     route: "/learn/frontier-ventures",
+  },
+  {
+    id: "core-economics",
+    name: "核心经济学",
+    icon: "📊",
+    description: "微观与宏观经济学基础——供需、价格、GDP、通胀与政策",
+    color: "hsl(150 8% 42%)",
+    route: "/learn/core-economics",
+  },
+  {
+    id: "applied-economics",
+    name: "应用经济学",
+    icon: "🎲",
+    description: "行为经济学与博弈论——心理偏差如何影响决策，策略互动与纳什均衡",
+    color: "hsl(35 75% 55%)",
+    route: "/learn/applied-economics",
+  },
+  {
+    id: "core-linguistics",
+    name: "核心语言学",
+    icon: "🔤",
+    description: "语音学、句法学与语义学——语言的结构分析",
+    color: "hsl(280 5% 45%)",
+    route: "/learn/core-linguistics",
+  },
+  {
+    id: "applied-linguistics",
+    name: "应用语言学",
+    icon: "💬",
+    description: "语用学——语境中的语言使用与会话含义",
+    color: "hsl(150 55% 45%)",
+    route: "/learn/applied-linguistics",
+  },
+  {
+    id: "social-structure-culture",
+    name: "社会结构与文化",
+    icon: "🌐",
+    description: "阶层、角色、制度与文化形成——社会如何组织自身",
+    color: "hsl(330 5% 45%)",
+    route: "/learn/social-structure-culture",
+  },
+  {
+    id: "social-dynamics",
+    name: "社会动态",
+    icon: "🔄",
+    description: "社会变迁、全球化、集体行动与越轨控制——社会如何运动变化",
+    color: "hsl(0 55% 50%)",
+    route: "/learn/social-dynamics",
   },
 ] as const
