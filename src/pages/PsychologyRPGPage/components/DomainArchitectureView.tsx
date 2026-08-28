@@ -143,250 +143,262 @@ const ARCHITECTURES: Record<string, DomainArch> = {
     ],
     logicChain: "是什么（定义）→ 为什么（六大流派各有侧重）→ 生理基础（遗传与进化）",
   },
-
-  // ════════════════════════════════════════════
-  // 电子游戏领域
-  // ════════════════════════════════════════════
   "game-industry-history": {
     title: "游戏行业史 · 学科架构",
-    description: "从1947年首个专利到2026年万亿级产业，80年发展历经「街机诞生 → 主机争霸 → PC与移动普及」三大时代跨越",
+    description: "游戏行业80年遵循「平台革命驱动权力更替」的主线——每次硬件平台迁移，都会重塑开发商、发行商与平台方的力量对比",
     layers: [
       {
-        name: "起源时代",
-        subtitle: "1947-1983 · 从实验室到街机厅",
+        name: "萌芽与崩塌期",
+        subtitle: "1940s-1983：从实验室玩具到首次泡沫",
         modules: [
           { name: "行业起源与早期发展", moduleId: "eg-history-origin", color: "hsl(45 80% 55%)" },
         ],
       },
       {
-        name: "主机时代",
-        subtitle: "1983-2010 · 三代霸主更替",
+        name: "主机王朝期",
+        subtitle: "1983-2007：任天堂/索尼/微软三代霸主",
         modules: [
-          { name: "主机时代演进", moduleId: "eg-history-console", color: "hsl(210 75% 55%)" },
+          { name: "主机时代演进", moduleId: "eg-history-console", color: "hsl(200 75% 55%)" },
         ],
       },
       {
-        name: "多元时代",
-        subtitle: "2010至今 · PC与移动全面普及",
+        name: "多元爆发期",
+        subtitle: "2007-至今：PC平台化与全民移动游戏",
         modules: [
-          { name: "PC与移动游戏发展", moduleId: "eg-history-pc-mobile", color: "hsl(280 60% 55%)" },
+          { name: "PC与移动游戏发展", moduleId: "eg-history-pc-mobile", color: "hsl(150 70% 50%)" },
         ],
       },
     ],
     flows: [
-      { label: "雅达利崩盘后任天堂重建行业秩序，开启主机黄金时代" },
-      { label: "智能手机普及打破主机垄断，开启全民游戏时代", highlight: true },
+      { label: "雅达利崩盘确立「内容为王」铁律，任天堂以权利金制度重建行业秩序" },
+      { label: "从街机到主机到PC/移动，每次平台迁移都重写行业权力格局", highlight: true },
     ],
-    logicChain: "街机诞生 → 雅达利崩盘 → 任天堂/索尼/微软三代主机争霸 → Steam赋能PC → 移动游戏全民化",
+    logicChain: "街机时代（诞生与崩盘）→ 主机时代（三代霸主更替）→ PC与移动时代（Steam平台与全民化）",
   },
   "game-industry-structure": {
     title: "游戏产业结构 · 学科架构",
-    description: "主机、PC、移动三大赛道各有差异化竞争逻辑——硬件入口、分发渠道与商业模式构成赛道护城河",
+    description: "主机、PC、移动三大传统赛道共享用户却在商业模式上分道扬镳——闭环生态、开放长尾与流量为王的三种生存哲学",
     layers: [
       {
-        name: "传统三大赛道",
-        subtitle: "硬件入口决定生态格局",
+        name: "主机赛道",
+        subtitle: "硬件补贴+独占内容的生态闭环",
         modules: [
-          { name: "主机游戏赛道", moduleId: "eg-console-track", color: "hsl(210 75% 55%)" },
-          { name: "PC游戏赛道", moduleId: "eg-pc-track", color: "hsl(195 80% 55%)" },
-          { name: "移动游戏赛道", moduleId: "eg-mobile-track", color: "hsl(280 60% 55%)" },
+          { name: "主机游戏赛道", moduleId: "eg-console-track", color: "hsl(220 75% 58%)" },
+        ],
+      },
+      {
+        name: "PC赛道",
+        subtitle: "平台垄断与独立游戏长尾",
+        modules: [
+          { name: "PC游戏赛道", moduleId: "eg-pc-track", color: "hsl(280 65% 58%)" },
+        ],
+      },
+      {
+        name: "移动赛道",
+        subtitle: "流量采买与全球化运营",
+        modules: [
+          { name: "移动游戏赛道", moduleId: "eg-mobile-track", color: "hsl(330 70% 58%)" },
         ],
       },
     ],
     flows: [
-      { label: "主机靠硬件补贴+独占内容，PC靠平台分发垄断，移动靠免费+内购变现", highlight: true },
+      { label: "三大赛道用户高度重叠，但商业模式迥异：主机卖独占、PC卖平台、移动卖流量" },
+      { label: "跨平台发行成为大势所趋，赛道边界正在逐渐模糊", highlight: true },
     ],
-    logicChain: "主机（索尼/微软/任天堂三足鼎立）→ PC（Steam垄断+独立游戏）→ 移动（国内三强+全球化运营）",
+    logicChain: "主机（生态闭环）→ PC（开放长尾）→ 移动（流量为王）→ 跨平台融合",
   },
   "emerging-tech": {
     title: "新兴技术赛道 · 学科架构",
-    description: "云游戏、AI游戏、VR/AR空间计算——三条技术路线从不同维度重塑游戏产业的生产与体验方式",
+    description: "云游戏、AI游戏、VR/AR构成行业的第二增长曲线——三条技术路线都在等待自己的「iPhone时刻」",
     layers: [
       {
-        name: "云端化",
-        subtitle: "算力上云，终端解放",
+        name: "云游戏",
+        subtitle: "云端渲染+订阅制的渠道革命",
         modules: [
           { name: "云游戏", moduleId: "eg-cloud-gaming", color: "hsl(195 80% 55%)" },
         ],
       },
       {
-        name: "智能化",
-        subtitle: "AI重塑研发与体验",
+        name: "AI游戏",
+        subtitle: "智能NPC与研发降本",
         modules: [
-          { name: "AI游戏", moduleId: "eg-ai-gaming", color: "hsl(280 60% 55%)" },
+          { name: "AI游戏", moduleId: "eg-ai-gaming", color: "hsl(265 80% 60%)" },
         ],
       },
       {
-        name: "空间化",
-        subtitle: "从屏幕到沉浸",
+        name: "VR/AR与空间计算",
+        subtitle: "新交互形态的终端之争",
         modules: [
-          { name: "VR/AR与空间计算", moduleId: "eg-vr-ar", color: "hsl(45 80% 55%)" },
+          { name: "VR/AR与空间计算", moduleId: "eg-vr-ar", color: "hsl(340 75% 58%)" },
         ],
       },
     ],
     flows: [
-      { label: "云游戏解决终端算力瓶颈，为AI和VR提供算力基础" },
-      { label: "三条路线最终交汇于「随时随地、智能生成的沉浸体验」", highlight: true },
+      { label: "云游戏重构发行渠道，AI重构研发成本曲线，VR/AR重构交互形态" },
+      { label: "三大技术的普及速度都取决于杀手级应用何时出现", highlight: true },
     ],
-    logicChain: "云游戏（算力解放）→ AI游戏（智能生成+降本增效）→ VR/AR（空间沉浸体验）",
+    logicChain: "云游戏（即点即玩）→ AI（智能内容与降本）→ VR/AR（空间计算新终端）",
   },
   "industry-laws-trends": {
     title: "行业规律与趋势 · 学科架构",
-    description: "80年发展沉淀三大核心规律，未来十年五大趋势重塑产业格局——从技术驱动到生态重构",
+    description: "80年发展沉淀出三大核心规律，并指向未来十年的五大演进方向——规律是趋势的地基，趋势是规律的延伸",
     layers: [
       {
         name: "核心规律层",
-        subtitle: "历史沉淀的不变法则",
+        subtitle: "驱动行业轮回的底层法则",
         modules: [
           { name: "行业核心规律", moduleId: "eg-core-laws", color: "hsl(35 80% 55%)" },
         ],
       },
       {
         name: "市场格局层",
-        subtitle: "全球竞争与马太效应",
+        subtitle: "中美双极与马太效应",
         modules: [
-          { name: "全球市场格局", moduleId: "eg-global-market", color: "hsl(210 75% 55%)" },
+          { name: "全球市场格局", moduleId: "eg-global-market", color: "hsl(210 70% 55%)" },
         ],
       },
       {
         name: "未来趋势层",
-        subtitle: "下一个十年的五大方向",
+        subtitle: "未来十年的演进方向",
         modules: [
-          { name: "未来十年趋势", moduleId: "eg-future-trends", color: "hsl(280 60% 55%)" },
+          { name: "未来十年趋势", moduleId: "eg-future-trends", color: "hsl(155 75% 50%)" },
         ],
       },
     ],
     flows: [
-      { label: "核心规律贯穿历史，决定市场格局的演化方向" },
-      { label: "市场格局的未来演变路径由五大趋势共同驱动", highlight: true },
+      { label: "技术迭代、内容为王、商业模式演变三大规律相互咬合，决定谁能穿越周期" },
+      { label: "全民化、AI渗透、订阅制、合规化——趋势是规律在当下的投影", highlight: true },
     ],
-    logicChain: "核心规律（技术迭代·内容为王·模式演变）→ 市场格局（中美双极·马太效应）→ 未来趋势（全民化·AI·订阅·合规）",
+    logicChain: "核心规律（为什么这么运转）→ 市场格局（谁在主导）→ 未来趋势（往哪里去）",
   },
-
-  // ════════════════════════════════════════════
-  // 马斯克企业版图
-  // ════════════════════════════════════════════
   "tesla-empire": {
     title: "特斯拉帝国 · 学科架构",
-    description: "特斯拉不是汽车公司，而是「电动汽车+能源+AI服务」三合一平台——三大业务形成飞轮，从硬件到软件到生态",
+    description: "特斯拉本质是「电动汽车+能源+AI」三合一平台——汽车贡献现金流，能源贡献第二曲线，AI/机器人承载估值想象力",
     layers: [
       {
-        name: "商业基础层",
-        subtitle: "赚钱的根基与财务表现",
+        name: "商业与财务层",
+        subtitle: "怎么赚钱，值多少钱",
         modules: [
           { name: "商业模式与财报", moduleId: "ts-finance", color: "hsl(0 75% 55%)" },
-          { name: "制造与供应链", moduleId: "ts-manufacturing", color: "hsl(200 75% 55%)" },
         ],
       },
       {
-        name: "增长曲线层",
-        subtitle: "第二增长引擎",
+        name: "增长引擎层",
+        subtitle: "两大新业务曲线",
         modules: [
           { name: "能源业务", moduleId: "ts-energy", color: "hsl(35 80% 55%)" },
-        ],
-      },
-      {
-        name: "终局想象层",
-        subtitle: "AI驱动的未来估值",
-        modules: [
           { name: "自动驾驶与机器人", moduleId: "ts-autonomy", color: "hsl(265 80% 60%)" },
         ],
       },
+      {
+        name: "制造护城河层",
+        subtitle: "垂直整合的成本优势",
+        modules: [
+          { name: "制造与供应链", moduleId: "ts-manufacturing", color: "hsl(200 75% 55%)" },
+        ],
+      },
     ],
     flows: [
-      { label: "汽车销售带来现金流，制造能力支撑能源业务扩张" },
-      { label: "能源业务提供增长第二曲线，AI/Robotaxi代表终局估值想象力", highlight: true },
+      { label: "汽车业务供血，能源业务增长，FSD/Robotaxi/Optimus决定估值上限" },
+      { label: "从挖矿到卖车的垂直整合是一切业务的成本护城河", highlight: true },
     ],
-    logicChain: "汽车赚钱（现金流）→ 能源增长（第二曲线）→ AI自动驾驶（终局估值）",
+    logicChain: "商业模式（怎么赚钱）→ 能源与AI（新增长引擎）→ 制造体系（成本护城河）→ 万亿估值（为未来买单）",
   },
   "spacex": {
     title: "太空探索 · 学科架构",
-    description: "SpaceX通过可回收火箭颠覆发射经济学，星链构建卫星互联网护城河，火星殖民是终局愿景——三层业务递进",
+    description: "SpaceX以「发射+星链+AI」三引擎运转——可回收火箭是技术底座，星链是现金引擎，星舰与火星是想象力的天花板",
     layers: [
       {
-        name: "技术基础层",
-        subtitle: "可回收火箭颠覆成本结构",
+        name: "发射底座层",
+        subtitle: "可回收火箭的经济学",
         modules: [
           { name: "火箭与发射", moduleId: "sp-launch", color: "hsl(210 80% 55%)" },
         ],
       },
       {
-        name: "商业变现层",
-        subtitle: "卫星互联网构建现金流",
+        name: "现金引擎层",
+        subtitle: "星链的规模化变现",
         modules: [
           { name: "星链业务", moduleId: "sp-starlink", color: "hsl(195 85% 55%)" },
         ],
       },
       {
-        name: "战略终局层",
-        subtitle: "IPO、火星与文明备份",
+        name: "资本与终局层",
+        subtitle: "IPO、并购与火星愿景",
         modules: [
           { name: "财务与战略", moduleId: "sp-strategy", color: "hsl(230 70% 58%)" },
         ],
       },
     ],
     flows: [
-      { label: "可回收技术降低发射成本，为星链大规模组网提供经济可行性" },
-      { label: "星链现金流支撑火星殖民的长期投入，形成商业闭环", highlight: true },
+      { label: "可回收火箭把发射成本降一个数量级，为星链万颗组网提供廉价运力" },
+      { label: "星链赚当下的钱，星舰撑未来的想象力——一台机器两个时代", highlight: true },
     ],
-    logicChain: "火箭回收（降本）→ 星链组网（变现）→ 火星殖民（终局）",
+    logicChain: "可回收火箭（技术底座）→ 星链（现金引擎）→ 上市与并购（资本运作）→ 火星殖民（终局愿景）",
   },
   "xai-x": {
     title: "AI与社交帝国 · 学科架构",
-    description: "xAI构建大模型能力，X平台提供实时数据飞轮，两者融合形成「数据→模型→用户→更多数据」的AI竞争闭环",
+    description: "xAI+X构成「数据→模型→算力→变现」的垂直整合栈——社交数据喂模型，模型带流量，算力租给全世界",
     layers: [
       {
-        name: "AI能力层",
-        subtitle: "大模型与算力基建",
+        name: "模型与算力层",
+        subtitle: "Grok与Colossus超算",
         modules: [
           { name: "xAI与Grok", moduleId: "xai-model", color: "hsl(280 70% 58%)" },
         ],
       },
       {
-        name: "数据与平台层",
-        subtitle: "社交平台提供实时数据",
+        name: "社交与数据层",
+        subtitle: "X平台的实时数据流",
         modules: [
           { name: "X平台", moduleId: "x-platform", color: "hsl(215 15% 55%)" },
         ],
       },
       {
-        name: "融合战略层",
-        subtitle: "数据飞轮与竞争格局",
+        name: "融合与财务层",
+        subtitle: "数据飞轮与三强竞争",
         modules: [
           { name: "融合战略与财务", moduleId: "xai-strategy", color: "hsl(320 70% 58%)" },
         ],
       },
     ],
     flows: [
-      { label: "X平台的实时数据反哺xAI模型训练，形成数据飞轮" },
-      { label: "融合后的AI+社交能力与OpenAI、Google形成三强竞争", highlight: true },
+      { label: "X的实时数据训练Grok，Grok反哺X的体验——数据飞轮双向赋能" },
+      { label: "算力租赁收入已反超模型订阅，「AI包租公」模式异军突起", highlight: true },
     ],
-    logicChain: "xAI大模型（能力）+ X平台（数据）→ 数据飞轮（闭环）→ AI三强竞争（格局）",
+    logicChain: "Grok模型（能力）→ Colossus算力（底座）→ X数据（差异化）→ 算力出租（变现）→ 三强竞争（格局）",
   },
   "frontier-ventures": {
     title: "前沿探索 · 学科架构",
-    description: "Neuralink突破脑机接口、Boring Company重塑地下交通、企业协同版图串联所有业务——马斯克方法论的核心实践",
+    description: "Neuralink与Boring Company是马斯克版图的两条长期赛道——短期看医疗与基建，长期看人机融合与城市重构",
     layers: [
       {
-        name: "前沿技术层",
-        subtitle: "颠覆性技术赛道",
+        name: "脑机接口层",
+        subtitle: "Neuralink的人机融合之路",
         modules: [
           { name: "Neuralink脑机接口", moduleId: "nl-brain", color: "hsl(150 70% 50%)" },
+        ],
+      },
+      {
+        name: "地下交通层",
+        subtitle: "Boring Company的隧道经济学",
+        modules: [
           { name: "The Boring Company", moduleId: "bc-tunnel", color: "hsl(30 75% 50%)" },
         ],
       },
       {
-        name: "协同战略层",
-        subtitle: "企业版图全景与方法论",
+        name: "版图全景层",
+        subtitle: "协同效应、方法论与风险",
         modules: [
           { name: "企业协同版图", moduleId: "musk-synergy", color: "hsl(45 85% 58%)" },
         ],
       },
     ],
     flows: [
-      { label: "各前沿企业独立探索，但共享第一性原理方法论与资源协同", highlight: true },
+      { label: "脑机接口与地下交通彼此独立，但共享马斯克式的第一性原理降本方法论" },
+      { label: "所有前沿押注共享同一个风险源——关键人、资本消耗与技术不确定性", highlight: true },
     ],
-    logicChain: "Neuralink（脑机）+ Boring Company（交通）→ 企业协同版图（第一性原理贯穿）→ 风险与机遇并存",
+    logicChain: "Neuralink（人机融合）→ Boring Company（地下交通）→ 版图全景（协同与风险）",
   },
 }
 

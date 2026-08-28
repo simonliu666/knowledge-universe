@@ -5,6 +5,7 @@ import { KNOWLEDGE_POINTS, TOTAL_POINTS } from "@/data/knowledgePoints"
 import { SKILL_MODULES } from "@/data/knowledgePoints"
 import { ACHIEVEMENTS } from "@/data/achievements"
 import { DUNGEONS } from "@/data/dungeons"
+import { CLOUD_APPLIED_EVENT } from "@/lib/cloudSync"
 
 const STORAGE_KEY = "__app_psychology_rpg_progress"
 
@@ -94,6 +95,13 @@ export function usePlayerProgress(subdomainId?: string): PlayerProgressAPI {
   useEffect(() => {
     saveProgress(progress)
   }, [progress])
+
+  // 云同步应用远端数据后，从 localStorage 重载
+  useEffect(() => {
+    const handler = () => setProgress(loadProgress())
+    window.addEventListener(CLOUD_APPLIED_EVENT, handler)
+    return () => window.removeEventListener(CLOUD_APPLIED_EVENT, handler)
+  }, [])
 
   // 添加经验飘字
   const addExpGain = useCallback((amount: number, reason: string) => {

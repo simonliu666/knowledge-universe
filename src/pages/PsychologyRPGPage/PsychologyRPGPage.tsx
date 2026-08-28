@@ -7,6 +7,7 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/comp
 import { usePlayerProgress } from "@/hooks/usePlayerProgress"
 import { useToolRecords } from "@/hooks/useToolRecords"
 import { useKnowledgeNotes } from "@/hooks/useKnowledgeNotes"
+import { useCloudSync } from "@/hooks/useCloudSync"
 import { SUBDOMAINS } from "@/data/knowledgePoints"
 import { CharacterPanel } from "./components/CharacterPanel"
 import { SkillTreeView } from "./components/SkillTreeView"
@@ -14,6 +15,7 @@ import { AchievementsView } from "./components/AchievementsView"
 import { DungeonView } from "./components/DungeonView"
 import { ToolboxView } from "./components/ToolboxView"
 import { LearningReflectionView } from "./components/LearningReflectionView"
+import { CloudSyncPanel } from "./components/CloudSyncPanel"
 import { LevelUpOverlay } from "./components/LevelUpOverlay"
 import { AchievementUnlockOverlay } from "./components/AchievementUnlockOverlay"
 import { ExpFloatText } from "./components/ExpFloatText"
@@ -60,6 +62,19 @@ export default function PsychologyRPGPage() {
     () => notesApi.qaRecords.length + notesApi.notes.length,
     [notesApi.qaRecords.length, notesApi.notes.length]
   )
+
+  // 云同步：聚合本地全部数据为快照，变化即触发防抖自动推送
+  const cloudSnapshot = useMemo(
+    () =>
+      JSON.stringify({
+        progress,
+        notes: notesApi.notes,
+        qaRecords: notesApi.qaRecords,
+        toolRecords: toolRecords.records,
+      }),
+    [progress, notesApi.notes, notesApi.qaRecords, toolRecords.records]
+  )
+  const cloudSync = useCloudSync(cloudSnapshot)
 
   // 如果子领域不存在，显示错误
   if (!subdomainInfo || !subdomainId) {
@@ -193,14 +208,17 @@ export default function PsychologyRPGPage() {
             <ToolboxView toolRecords={toolRecords} onToolUse={handleToolUse} />
           )}
           {activeTab === "reflections" && (
-            <LearningReflectionView
-              qaRecords={notesApi.qaRecords}
-              notes={notesApi.notes}
-              onDeleteQA={notesApi.deleteQARecord}
-              onDeleteNote={notesApi.deleteNote}
-              onImportQA={notesApi.importQARecords}
-              onImportNotes={notesApi.importNotes}
-            />
+            <div className="space-y-3">
+              <CloudSyncPanel cloudSync={cloudSync} />
+              <LearningReflectionView
+                qaRecords={notesApi.qaRecords}
+                notes={notesApi.notes}
+                onDeleteQA={notesApi.deleteQARecord}
+                onDeleteNote={notesApi.deleteNote}
+                onImportQA={notesApi.importQARecords}
+                onImportNotes={notesApi.importNotes}
+              />
+            </div>
           )}
         </div>
       </div>
