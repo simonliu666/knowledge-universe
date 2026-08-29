@@ -154,18 +154,20 @@ export const DOMAINS: IKnowledgeDomain[] = [
     description: "理解稀缺资源分配、市场机制与人类决策行为",
     status: "active",
     color: "hsl(150 8% 42%)",
-    totalPoints: 18,
+    totalPoints: 31,
     subDomains: [
       {
         id: "core-economics",
         name: "核心经济学",
         description: "微观与宏观经济学基础",
         status: "active",
-        totalPoints: 11,
+        totalPoints: 17,
         route: "/learn/core-economics",
         modules: [
+          { id: "ec-foundation", name: "经济学基础", description: "稀缺、机会成本与经济学思维", totalPoints: 4 },
           { id: "ec-micro", name: "微观经济学", description: "供需、价格与个体决策", totalPoints: 6 },
           { id: "ec-macro", name: "宏观经济学", description: "GDP、通胀与货币政策", totalPoints: 5 },
+          { id: "ec-methodology", name: "经济学方法论", description: "实证规范、模型与因果推断", totalPoints: 2 },
         ],
       },
       {
@@ -173,11 +175,12 @@ export const DOMAINS: IKnowledgeDomain[] = [
         name: "应用经济学",
         description: "行为经济学与博弈论",
         status: "active",
-        totalPoints: 7,
+        totalPoints: 14,
         route: "/learn/applied-economics",
         modules: [
           { id: "ec-behavioral", name: "行为经济学", description: "心理偏差如何影响经济决策", totalPoints: 4 },
           { id: "ec-game-theory", name: "博弈论", description: "策略互动与纳什均衡", totalPoints: 3 },
+          { id: "ec-branches", name: "主要分支", description: "金融、劳动、国际、公共、发展、制度与环境经济学", totalPoints: 7 },
         ],
       },
     ],
