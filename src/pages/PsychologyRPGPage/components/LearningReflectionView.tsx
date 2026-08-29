@@ -27,7 +27,6 @@ export function LearningReflectionView({
 }: LearningReflectionViewProps) {
   const [searchText, setSearchText] = useState("")
   const [filterModule, setFilterModule] = useState<string>("all")
-  const [filterType, setFilterType] = useState<string>("all")
   const [copied, setCopied] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -53,24 +52,17 @@ export function LearningReflectionView({
     const lines: string[] = []
     lines.push("=== 学习思考记录 ===")
     lines.push(`导出时间: ${new Date().toLocaleString("zh-CN")}`)
-    lines.push(`问答 ${qaRecords.length} 条 | 笔记 ${notes.length} 条`)
+    lines.push(`笔记 ${qaRecords.length + notes.length} 条`)
     lines.push("")
-    if (qaRecords.length > 0) {
-      lines.push("── 问答记录 ──")
-      for (const qa of qaRecords) {
-        lines.push(`\n【${qa.pointName}】`)
-        lines.push(`Q: ${qa.question}`)
-        lines.push(`A: ${qa.answer}`)
-      }
-      lines.push("")
+    for (const qa of qaRecords) {
+      lines.push(`\n【${qa.pointName}】`)
+      lines.push(`Q: ${qa.question}`)
+      lines.push(`A: ${qa.answer}`)
     }
-    if (notes.length > 0) {
-      lines.push("── 笔记记录 ──")
-      for (const note of notes) {
-        const point = getPointById(note.pointId)
-        lines.push(`\n【${point?.name || "未知知识点"}】`)
-        lines.push(note.content)
-      }
+    for (const note of notes) {
+      const point = getPointById(note.pointId)
+      lines.push(`\n【${point?.name || "未知知识点"}】`)
+      lines.push(note.content)
     }
     navigator.clipboard.writeText(lines.join("\n")).then(() => {
       setCopied(true)
@@ -92,7 +84,7 @@ export function LearningReflectionView({
         if (data.notes && Array.isArray(data.notes) && onImportNotes) {
           onImportNotes(data.notes)
         }
-        alert(`导入成功：${data.qaRecords?.length || 0} 条问答，${data.notes?.length || 0} 条笔记`)
+        alert(`导入成功：${(data.qaRecords?.length || 0) + (data.notes?.length || 0)} 条笔记`)
       } catch {
         alert("导入失败：文件格式不正确")
       }
@@ -131,10 +123,6 @@ export function LearningReflectionView({
       result = result.filter((entry) => getModuleByPointId(entry.data.pointId) === filterModule)
     }
 
-    if (filterType !== "all") {
-      result = result.filter((entry) => entry.type === filterType)
-    }
-
     if (searchText.trim()) {
       const lower = searchText.toLowerCase()
       result = result.filter((entry) => {
@@ -154,7 +142,7 @@ export function LearningReflectionView({
     }
 
     return result
-  }, [allEntries, filterModule, filterType, searchText])
+  }, [allEntries, filterModule, searchText])
 
   // 涉及的知识点
   const pointStats = useMemo(() => {
@@ -185,18 +173,9 @@ export function LearningReflectionView({
       <div className="flex flex-wrap items-center gap-3 rounded border border-border bg-card px-4 py-3">
         <div className="flex items-center gap-2">
           <Lightbulb className="h-4 w-4 text-primary" />
-          <span className="text-sm text-muted-foreground">学习思考</span>
+          <span className="text-sm text-muted-foreground">笔记</span>
           <span className="text-lg font-bold text-foreground">{totalAll}</span>
           <span className="text-xs text-muted-foreground">条</span>
-        </div>
-        <div className="h-4 w-px bg-border" />
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">其中问答</span>
-          <span className="text-sm font-bold text-primary">{totalQA}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">笔记</span>
-          <span className="text-sm font-bold text-accent">{totalNotes}</span>
         </div>
         <div className="h-4 w-px bg-border" />
         <div className="flex items-center gap-2">
@@ -253,7 +232,7 @@ export function LearningReflectionView({
             暂无学习思考记录
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            在技能树中打开任意知识点，点击「问答」或「笔记」即可记录学习中的疑问、见解与收获
+            在技能树中打开任意知识点，点击「记笔记」即可记录学习中的理解、疑问与见解
           </p>
         </div>
       ) : (
@@ -269,15 +248,6 @@ export function LearningReflectionView({
                 className="w-full rounded border border-border bg-muted py-1.5 pl-8 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>
-            <select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-              className="rounded border border-border bg-muted px-2.5 py-1.5 text-sm text-foreground focus:border-primary focus:outline-none"
-            >
-              <option value="all">全部类型</option>
-              <option value="qa">问答</option>
-              <option value="note">笔记</option>
-            </select>
             <select
               value={filterModule}
               onChange={(e) => setFilterModule(e.target.value)}
@@ -321,7 +291,7 @@ export function LearningReflectionView({
                             <span className="text-xs font-medium text-primary">
                               {pointName}
                             </span>
-                            <span className="rounded bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold text-primary">问答</span>
+                            <span className="rounded bg-accent/15 px-1.5 py-0.5 text-[10px] font-semibold text-accent">笔记</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <span className="text-xs text-muted-foreground">
@@ -407,11 +377,12 @@ export function LearningReflectionView({
                   <span
                     key={stat.pointId}
                     className="rounded border border-border bg-muted px-2 py-1 text-xs text-muted-foreground"
-                    title={`${stat.qaCount} 条问答，${stat.noteCount} 条笔记`}
+                    title={`${stat.qaCount + stat.noteCount} 条笔记`}
                   >
                     {stat.pointName}
-                    {stat.qaCount > 0 && <span className="ml-1 text-primary">Q{stat.qaCount}</span>}
-                    {stat.noteCount > 0 && <span className="ml-1 text-accent">N{stat.noteCount}</span>}
+                    {(stat.qaCount + stat.noteCount) > 0 && (
+                      <span className="ml-1 text-accent">{stat.qaCount + stat.noteCount}条</span>
+                    )}
                   </span>
                 ))}
               </div>

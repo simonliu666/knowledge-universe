@@ -64,9 +64,7 @@ export const InlinePointDetail = memo(function InlinePointDetail({
   notesApi,
 }: InlinePointDetailProps) {
   const [noteText, setNoteText] = useState("")
-  const [qaQuestion, setQaQuestion] = useState("")
-  const [qaAnswer, setQaAnswer] = useState("")
-  const [addMode, setAddMode] = useState<"none" | "note" | "qa">("none")
+  const [addMode, setAddMode] = useState<"none" | "note">("none")
 
   const relatedPoints = useMemo(
     () => point.relatedPoints.map((id) => getPointById(id)).filter(Boolean) as IKnowledgePoint[],
@@ -98,14 +96,6 @@ export const InlinePointDetail = memo(function InlinePointDetail({
     if (!noteText.trim()) return
     notesApi.addNote(point.id, noteText)
     setNoteText("")
-    setAddMode("none")
-  }
-
-  function handleAddQA() {
-    if (!qaQuestion.trim() || !qaAnswer.trim()) return
-    notesApi.addQARecord(point.id, point.name, qaQuestion, qaAnswer)
-    setQaQuestion("")
-    setQaAnswer("")
     setAddMode("none")
   }
 
@@ -184,65 +174,21 @@ export const InlinePointDetail = memo(function InlinePointDetail({
                 variant="ghost"
                 size="sm"
                 className="h-6 px-2 text-xs"
-                onClick={() => setAddMode(addMode === "qa" ? "none" : "qa")}
-              >
-                <Plus className="h-3 w-3" />
-                问答
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 px-2 text-xs"
                 onClick={() => setAddMode(addMode === "note" ? "none" : "note")}
               >
                 <Plus className="h-3 w-3" />
-                笔记
+                记笔记
               </Button>
             </div>
           }
         >
-          {/* 添加问答 */}
-          {addMode === "qa" && (
-            <div className="mb-3 space-y-2 rounded border border-primary bg-primary/5 p-3">
-              <div>
-                <label className="mb-1 block text-xs font-medium text-muted-foreground">问题</label>
-                <textarea
-                  value={qaQuestion}
-                  onChange={(e) => setQaQuestion(e.target.value)}
-                  placeholder="你在学习这个知识点时提出的问题..."
-                  rows={2}
-                  autoFocus
-                  className="w-full resize-none rounded border border-border bg-card p-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                />
-              </div>
-              <div>
-                <label className="mb-1 block text-xs font-medium text-muted-foreground">答案</label>
-                <textarea
-                  value={qaAnswer}
-                  onChange={(e) => setQaAnswer(e.target.value)}
-                  placeholder="探讨后整理的答案..."
-                  rows={3}
-                  className="w-full resize-none rounded border border-border bg-card p-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                />
-              </div>
-              <div className="flex justify-end gap-2">
-                <Button variant="ghost" size="sm" onClick={() => { setAddMode("none"); setQaQuestion(""); setQaAnswer("") }}>
-                  取消
-                </Button>
-                <Button size="sm" onClick={handleAddQA} disabled={!qaQuestion.trim() || !qaAnswer.trim()}>
-                  保存问答
-                </Button>
-              </div>
-            </div>
-          )}
-
           {/* 添加笔记 */}
           {addMode === "note" && (
             <div className="mb-3 space-y-2 rounded border border-accent bg-accent/5 p-3">
               <textarea
                 value={noteText}
                 onChange={(e) => setNoteText(e.target.value)}
-                placeholder="记录你的理解、补充案例或个人见解..."
+                placeholder="记录你的理解、补充案例、疑问或见解..."
                 rows={3}
                 autoFocus
                 className="w-full resize-none rounded border border-border bg-card p-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
@@ -261,73 +207,54 @@ export const InlinePointDetail = memo(function InlinePointDetail({
           {/* 记录列表 */}
           {totalReflections === 0 && addMode === "none" ? (
             <p className="text-xs text-muted-foreground">
-              暂无记录。可点击上方「问答」或「笔记」添加。
+              暂无笔记。点击上方「记笔记」记录你的理解、疑问与见解。
             </p>
           ) : (
             <div className="space-y-2">
               {allReflections.map((entry) => {
-                if (entry.type === "qa") {
-                  const qa = entry.data
-                  return (
-                    <div
-                      key={qa.id}
-                      className="group rounded border border-primary/30 bg-primary/5 p-3"
-                    >
-                      <div className="mb-1.5 flex items-center gap-2">
-                        <span className="rounded bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold text-primary">问答</span>
-                        <span className="text-[10px] text-muted-foreground">
-                          {new Date(qa.createdAt).toLocaleString("zh-CN")}
-                        </span>
-                        <button
-                          onClick={() => notesApi.deleteQARecord(qa.id)}
-                          className="ml-auto opacity-0 transition-opacity group-hover:opacity-100"
-                          aria-label="删除"
-                        >
-                          <Trash2 className="h-3.5 w-3.5 text-muted-foreground hover:text-destructive" />
-                        </button>
-                      </div>
+                const entryTime = new Date(entry.data.createdAt).toLocaleString("zh-CN")
+                return (
+                  <div
+                    key={entry.data.id}
+                    className="group rounded border bg-card p-3"
+                  >
+                    <div className="mb-1.5 flex items-center gap-2">
+                      <span className="rounded bg-accent/15 px-1.5 py-0.5 text-[10px] font-semibold text-accent">笔记</span>
+                      <span className="text-[10px] text-muted-foreground">{entryTime}</span>
+                      <button
+                        onClick={() =>
+                          entry.type === "qa"
+                            ? notesApi.deleteQARecord(entry.data.id)
+                            : notesApi.deleteNote(entry.data.id)
+                        }
+                        className="ml-auto opacity-0 transition-opacity group-hover:opacity-100"
+                        aria-label="删除"
+                      >
+                        <Trash2 className="h-3.5 w-3.5 text-muted-foreground hover:text-destructive" />
+                      </button>
+                    </div>
+                    {entry.type === "qa" ? (
                       <div className="space-y-1.5">
                         <div className="flex items-start gap-1.5">
                           <span className="mt-0.5 shrink-0 rounded bg-primary/20 px-1 text-xs font-bold text-primary">Q</span>
                           <p className="flex-1 text-sm font-medium leading-relaxed text-foreground">
-                            {qa.question}
+                            {entry.data.question}
                           </p>
                         </div>
                         <div className="flex items-start gap-1.5">
                           <span className="mt-0.5 shrink-0 rounded bg-accent/20 px-1 text-xs font-bold text-accent">A</span>
                           <p className="flex-1 whitespace-pre-wrap text-sm leading-relaxed text-foreground">
-                            {qa.answer}
+                            {entry.data.answer}
                           </p>
                         </div>
                       </div>
-                    </div>
-                  )
-                } else {
-                  const note = entry.data
-                  return (
-                    <div
-                      key={note.id}
-                      className="group rounded border border-border bg-card p-3"
-                    >
-                      <div className="mb-1.5 flex items-center gap-2">
-                        <span className="rounded bg-accent/15 px-1.5 py-0.5 text-[10px] font-semibold text-accent">笔记</span>
-                        <span className="text-[10px] text-muted-foreground">
-                          {new Date(note.createdAt).toLocaleString("zh-CN")}
-                        </span>
-                        <button
-                          onClick={() => notesApi.deleteNote(note.id)}
-                          className="ml-auto opacity-0 transition-opacity group-hover:opacity-100"
-                          aria-label="删除"
-                        >
-                          <Trash2 className="h-3.5 w-3.5 text-muted-foreground hover:text-destructive" />
-                        </button>
-                      </div>
+                    ) : (
                       <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
-                        {note.content}
+                        {entry.data.content}
                       </p>
-                    </div>
-                  )
-                }
+                    )}
+                  </div>
+                )
               })}
             </div>
           )}

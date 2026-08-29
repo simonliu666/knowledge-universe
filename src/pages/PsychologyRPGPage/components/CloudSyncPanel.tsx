@@ -96,7 +96,7 @@ export function CloudSyncPanel({ cloudSync }: CloudSyncPanelProps) {
             /* ---------- 未启用：配置表单 ---------- */
             <div className="space-y-3">
               <p className="text-xs leading-relaxed text-muted-foreground">
-                将学习笔记、问答记录、角色进度、工具记录自动备份到 GitHub 仓库的
+                将学习笔记、角色进度、工具记录自动备份到 GitHub 仓库的
                 <code className="mx-1 rounded bg-muted px-1 py-0.5 text-[11px]">user-data</code>
                 分支，清缓存 / 换设备后可一键找回。数据只同步到你的私有 token 对应的仓库。
               </p>
@@ -215,7 +215,7 @@ export function CloudSyncPanel({ cloudSync }: CloudSyncPanelProps) {
               </div>
 
               <div className="rounded bg-muted/50 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
-                <p>同步范围：学习笔记、问答记录、角色进度、工具记录（4 类数据合并为一份 JSON，存于 <code className="rounded bg-muted px-1">user-data</code> 分支根目录）</p>
+                <p>同步范围：学习笔记、角色进度、工具记录（3 类数据合并为一份 JSON，存于 <code className="rounded bg-muted px-1">user-data</code> 分支根目录）</p>
                 <p>合并规则：按记录 ID 取并集，多设备同时使用也不会互相覆盖；删除操作不会同步（云端视为回收站，可在 GitHub 网页上手动清理）</p>
               </div>
             </div>
