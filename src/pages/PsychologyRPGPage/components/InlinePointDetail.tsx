@@ -205,11 +205,7 @@ export const InlinePointDetail = memo(function InlinePointDetail({
           )}
 
           {/* 记录列表 */}
-          {totalReflections === 0 && addMode === "none" ? (
-            <p className="text-xs text-muted-foreground">
-              暂无笔记。点击上方「记笔记」记录你的理解、疑问与见解。
-            </p>
-          ) : (
+          {totalReflections === 0 && addMode === "none" ? null : (
             <div className="space-y-2">
               {allReflections.map((entry) => {
                 const entryTime = new Date(entry.data.createdAt).toLocaleString("zh-CN")
