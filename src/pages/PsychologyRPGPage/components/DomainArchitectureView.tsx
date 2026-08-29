@@ -406,8 +406,15 @@ const ARCHITECTURES: Record<string, DomainArch> = {
   // ════════════════════════════════════════════
   "core-economics": {
     title: "核心经济学 · 学科架构",
-    description: "经济学从微观个体决策到宏观整体运行——微观是「看树木」，宏观是「看森林」，两者互补构成经济分析的基础框架",
+    description: "经济学从「稀缺与选择」的根出发——先立经济学思维（基础），再分微观看个体、宏观看整体，最后用方法论检验观点",
     layers: [
+      {
+        name: "根基层",
+        subtitle: "稀缺、机会成本与经济学思维",
+        modules: [
+          { name: "经济学基础", moduleId: "ec-foundation", color: "hsl(150 40% 45%)" },
+        ],
+      },
       {
         name: "微观基础层",
         subtitle: "个体决策与市场机制",
@@ -422,16 +429,24 @@ const ARCHITECTURES: Record<string, DomainArch> = {
           { name: "宏观经济学", moduleId: "ec-macro", color: "hsl(200 65% 50%)" },
         ],
       },
+      {
+        name: "方法论层",
+        subtitle: "实证、模型与因果验证",
+        modules: [
+          { name: "经济学方法论", moduleId: "ec-methodology", color: "hsl(220 55% 50%)" },
+        ],
+      },
     ],
     flows: [
       { label: "微观分析个体决策如何通过市场汇总为宏观现象" },
       { label: "宏观政策（货币/财政）反过来影响微观个体的决策环境", highlight: true },
+      { label: "方法论（实证/模型/因果推断）为判断经济学观点是否可靠提供标尺" },
     ],
-    logicChain: "供需与价格（微观）→ GDP与通胀（宏观）→ 政策调控（宏观影响微观）",
+    logicChain: "稀缺与机会成本（基础）→ 供需与价格（微观）→ GDP与通胀（宏观）→ 政策调控 → 实证与模型验证",
   },
   "applied-economics": {
     title: "应用经济学 · 学科架构",
-    description: "行为经济学揭示人类决策的非理性，博弈论分析策略互动——两者从不同角度挑战传统经济学的「理性人」假设",
+    description: "行为经济学揭示决策的非理性，博弈论分析策略互动——两者从不同角度挑战传统「理性人」假设，再延伸至金融、劳动、国际等分支落地应用",
     layers: [
       {
         name: "行为层",
@@ -447,12 +462,20 @@ const ARCHITECTURES: Record<string, DomainArch> = {
           { name: "博弈论", moduleId: "ec-game-theory", color: "hsl(35 75% 55%)" },
         ],
       },
+      {
+        name: "分支应用层",
+        subtitle: "金融、劳动、国际、公共、发展、制度与环境经济",
+        modules: [
+          { name: "主要分支", moduleId: "ec-branches", color: "hsl(260 55% 55%)" },
+        ],
+      },
     ],
     flows: [
       { label: "行为经济学解释个体为什么偏离理性，博弈论解释多人互动中的策略选择" },
-      { label: "两者结合形成「有限理性的策略互动」——更贴近现实的经济分析", highlight: true },
+      { label: "行为与策略洞察汇入各分支——金融（风险）、劳动（人力资本）、国际（比较优势）等", highlight: true },
+      { label: "分支从主干长出：制度与发展决定长期繁荣，公共与环境应对市场失灵" },
     ],
-    logicChain: "认知偏差（行为）→ 策略互动（博弈）→ 有限理性下的均衡",
+    logicChain: "认知偏差（行为）→ 策略互动（博弈）→ 各分支落地应用（金融/劳动/国际/公共/发展/制度/环境）",
   },
 
   // ════════════════════════════════════════════
