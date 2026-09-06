@@ -31,6 +31,25 @@ interface DomainArch {
   layers: ArchLayer[]
   flows: ArchFlow[]
   logicChain: string
+  /** 房子结构的六大部件（地基→支柱→房间→走廊→工具→屋顶），存在时优先渲染房子 */
+  house?: HousePart[]
+}
+
+/** 房子结构中的单个部件 */
+interface HousePart {
+  icon: string
+  name: string
+  subtitle: string
+  desc: string
+  color: string
+  modules?: ArchModule[]
+}
+
+/** 学科的建筑类型标注 */
+interface ArchType {
+  type: string
+  icon: string
+  meta: string
 }
 
 const ARCHITECTURES: Record<string, DomainArch> = {
@@ -443,6 +462,56 @@ const ARCHITECTURES: Record<string, DomainArch> = {
       { label: "方法论（实证/模型/因果推断）为判断经济学观点是否可靠提供标尺" },
     ],
     logicChain: "稀缺与机会成本（基础）→ 供需与价格（微观）→ GDP与通胀（宏观）→ 政策调控 → 实证与模型验证",
+    house: [
+      {
+        icon: "地基",
+        name: "我的基本语言与工具",
+        subtitle: "先学会用这套语言思考",
+        desc: "稀缺、机会成本、边际思维、激励——经济学的一切分析，都先用「代价」和「边际」这套语言，把每个选择翻译成「值不值、多做一点点划不划算」。",
+        color: "hsl(150 70% 50%)",
+        modules: [{ name: "经济学基础", moduleId: "ec-foundation", color: "hsl(150 70% 50%)" }],
+      },
+      {
+        icon: "支柱",
+        name: "我的核心「玩法」有两种",
+        subtitle: "撑起整座楼的两种套路",
+        desc: "「微观」看个体与市场怎么定价（供求如何决定价格）、「宏观」看整个国家的总量怎么被供需与政策调控——两套玩法，一个管小、一个管大。",
+        color: "hsl(200 75% 55%)",
+        modules: [
+          { name: "微观经济学", moduleId: "ec-micro", color: "hsl(200 75% 55%)" },
+          { name: "宏观经济学", moduleId: "ec-macro", color: "hsl(35 75% 55%)" },
+        ],
+      },
+      {
+        icon: "房间",
+        name: "我分哪些子领域",
+        subtitle: "微观与宏观两大房间",
+        desc: "微观经济学是「一个房间」——研究个体与市场；宏观经济学是「另一个房间」——研究整体运行。不同房间看同一台经济机器的不同零部件。",
+        color: "hsl(150 60% 45%)",
+      },
+      {
+        icon: "走廊",
+        name: "哪些领域在互相借东西",
+        subtitle: "小房间与大房间之间的通道",
+        desc: "微观个体的决策如何「汇总」成宏观总量？宏观政策（降息/涨税）又如何回头改变你手上的钱？这条走廊就是微观↔宏观的传导通道。",
+        color: "hsl(265 75% 60%)",
+      },
+      {
+        icon: "工具",
+        name: "大家共用的方法",
+        subtitle: "全屋通用的检验标尺",
+        desc: "实证数据、供求模型、因果推断——判断任何经济学观点「靠不靠谱」的通用工具箱，不专属于哪个房间。",
+        color: "hsl(220 65% 55%)",
+        modules: [{ name: "经济学方法论", moduleId: "ec-methodology", color: "hsl(220 65% 55%)" }],
+      },
+      {
+        icon: "屋顶",
+        name: "我最终能用来做什么",
+        subtitle: "这本书的用处（用途是多叉的）",
+        desc: "预测价格与宏观趋势；做个人与公司「花最少代价换最大收益」的性价比决策；看懂并评估政府政策。经济学是个多屋顶的房子——政策、投资、定价、消费判断都在它的庇护下。",
+        color: "hsl(265 85% 62%)",
+      },
+    ],
   },
   "applied-economics": {
     title: "应用经济学 · 学科架构",
@@ -476,6 +545,55 @@ const ARCHITECTURES: Record<string, DomainArch> = {
       { label: "分支从主干长出：制度与发展决定长期繁荣，公共与环境应对市场失灵" },
     ],
     logicChain: "认知偏差（行为）→ 策略互动（博弈）→ 各分支落地应用（金融/劳动/国际/公共/发展/制度/环境）",
+    house: [
+      {
+        icon: "地基",
+        name: "我的基本语言与工具",
+        subtitle: "在核心经济学的屋顶下立起来",
+        desc: "应用经济学不重建地基，它站在核心经济学的「理性人」假设和机会成本语言之上，再来回答「人真的那么理性吗？」这个问题。",
+        color: "hsl(150 70% 50%)",
+      },
+      {
+        icon: "支柱",
+        name: "我的核心「玩法」有两种",
+        subtitle: "两队人马在拆理性人",
+        desc: "「行为经济学」从个人内部拆——人常因锚定、损失厌恶违背理性；「博弈论」从多人互动拆——你选什么取决于对方猜你会选什么。两种玩法核心都围绕「现实的决策」展开。",
+        color: "hsl(280 70% 58%)",
+        modules: [
+          { name: "行为经济学", moduleId: "ec-behavioral", color: "hsl(280 70% 58%)" },
+          { name: "博弈论", moduleId: "ec-game-theory", color: "hsl(35 75% 55%)" },
+        ],
+      },
+      {
+        icon: "房间",
+        name: "我分哪些子领域",
+        subtitle: "从主干长出的各分支房间",
+        desc: "金融、劳动、国际、公共、发展、制度与环境——每一个都是一座装着现实问题的具体房间，行为与博弈的洞察被搬进去落地。",
+        color: "hsl(260 65% 58%)",
+        modules: [{ name: "主要分支", moduleId: "ec-branches", color: "hsl(260 65% 58%)" }],
+      },
+      {
+        icon: "走廊",
+        name: "哪些领域在互相借东西",
+        subtitle: "洞察在各房间之间流动",
+        desc: "行为视角（风险厌恶）渗进金融，人力资本视角渗进劳动，比较优势渗进国际——每根走廊都是一条「把洞察搬进具体领域」的应用通道。",
+        color: "hsl(195 85% 55%)",
+      },
+      {
+        icon: "工具",
+        name: "大家共用的方法",
+        subtitle: "与核心经济学共享工具箱",
+        desc: "实证检验、因果推断、田野实验——从与核心经济学共用的方法论工具箱里，拿出严谨的标尺来验证「行为会如何影响真实市场」。",
+        color: "hsl(220 65% 55%)",
+      },
+      {
+        icon: "屋顶",
+        name: "我最终能用来做什么",
+        subtitle: "多幅屋顶：设计、决策与政策",
+        desc: "用行为洞察做「助推」式政策设计（推一下普通人做出更优选择）；用博弈论做拍卖、谈判与制度设计；用行为偏差做投资与消费的自我纠偏。应用经济学是多屋顶的落地方。",
+        color: "hsl(265 85% 62%)",
+      },
+    ],
   },
 
   // ════════════════════════════════════════════
@@ -587,6 +705,47 @@ const ARCHITECTURES: Record<string, DomainArch> = {
 }
 
 // ============================================================
+// 各学科「建筑类型」标注 — 判断每门学科最像哪种建筑
+// ============================================================
+
+/** 房子结构的六大部件（自上而下阅读顺序） */
+const HOUSE_STEPS = ["地基", "支柱", "房间", "走廊", "工具", "屋顶"]
+
+/** 每个子领域的建筑类型：type=最贴切的建筑 / meta=一句说明 */
+const SUBDOMAIN_TYPES: Record<string, ArchType> = {
+  // ── 心理学（漏斗/递归型，不适合房子）──
+  "social-psychology": { type: "楼层·递进漏斗", icon: "🏢", meta: "个体→人际→群体，层级放大" },
+  "cognitive-psychology": { type: "管道·流水线", icon: "⚙️", meta: "输入→加工→存储→输出" },
+  "personality-psychology": { type: "并列流派树", icon: "🌲", meta: "六根支柱同根而分立" },
+  // ── 经济学（成熟应用型，最适合房子）──
+  "core-economics": { type: "房子·六件套", icon: "🏠", meta: "地基/支柱/房间/走廊/工具/屋顶" },
+  "applied-economics": { type: "房子·六件套", icon: "🏠", meta: "在核心之上落地多屋顶" },
+  // ── 语言学（层级+矩阵交叉）──
+  "core-linguistics": { type: "楼层·层级堆叠", icon: "🏗️", meta: "语音→结构→意义逐层抽象" },
+  "applied-linguistics": { type: "单间·使用层", icon: "🚪", meta: "挂在形式系统之上的应用层" },
+  // ── 社会学（静态与动态双模态）──
+  "social-structure-culture": { type: "并列双房", icon: "🏠", meta: "结构（硬件）+文化（软件）" },
+  "social-dynamics": { type: "循环·反馈环", icon: "🔄", meta: "变迁→控制→再变迁" },
+  // ── 电子游戏（并列赛道/时间线）──
+  "game-industry-history": { type: "河流·时间线", icon: "🌊", meta: "街机→主机→PC/移动" },
+  "game-industry-structure": { type: "并列三道", icon: "🛤️", meta: "主机/PC/移动三赛道并行" },
+  "emerging-tech": { type: "并列三线", icon: "🚀", meta: "云/AI/空间计算三条增长线" },
+  "industry-laws-trends": { type: "漏斗·推导", icon: "⏳", meta: "规律→格局→未来趋势" },
+  // ── 马斯克（引擎/飞轮型）──
+  "tesla-empire": { type: "三引擎平台", icon: "⚙️", meta: "汽车供血+能源+AI定估值" },
+  "spacex": { type: "三引擎平台", icon: "🚀", meta: "可回收底座+星链现金+火星天花板" },
+  "xai-x": { type: "飞轮·循环", icon: "🔄", meta: "数据→模型→算力→变现" },
+  "frontier-ventures": { type: "并列双押注", icon: "🎲", meta: "脑机+地下交通+版图全景" },
+}
+
+/** 根据房子部件颜色取知识点状态色的辅助函数 */
+function partStateColor(part: HousePart, learned: number, total: number): string {
+  if (total > 0 && learned === total) return "hsl(155 70% 50%)"
+  if (learned > 0) return "hsl(35 85% 60%)"
+  return part.color
+}
+
+// ============================================================
 // 学科架构图组件（含知识点列表）
 // ============================================================
 
@@ -600,6 +759,7 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onPointClic
   const [expanded, setExpanded] = useState(true)
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set())
   const arch = ARCHITECTURES[subdomainId]
+  const archType = SUBDOMAIN_TYPES[subdomainId]
 
   const learnedSet = useMemo(() => new Set(learnedPoints), [learnedPoints])
 
@@ -641,6 +801,14 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onPointClic
       >
         <Network className="h-4 w-4 shrink-0 text-accent" />
         <span className="text-sm font-medium text-foreground">{arch.title}</span>
+        {archType && (
+          <span
+            className="rounded border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary"
+            title={`建筑类型：${archType.type} — ${archType.meta}`}
+          >
+            {archType.icon} {archType.type}
+          </span>
+        )}
         <span className="ml-auto shrink-0 text-muted-foreground">
           {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
         </span>
@@ -651,7 +819,143 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onPointClic
           {/* 架构描述 */}
           <p className="text-xs leading-relaxed text-muted-foreground">{arch.description}</p>
 
+          {/* 六步小引导条 */}
+          {arch.house && (
+            <div className="flex flex-wrap items-center gap-1 text-[10px] text-muted-foreground">
+              {HOUSE_STEPS.map((step, i) => (
+                <span key={step} className="flex items-center gap-1">
+                  {i > 0 && <span className="text-muted-foreground/50">→</span>}
+                  <span className="rounded bg-primary/10 px-1.5 py-0.5 text-primary">{step}</span>
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* 房子结构 */}
+          {arch.house && (
+            <div className="space-y-2">
+              {arch.house.map((part, partIdx) => {
+                const partModules = part.modules || []
+                const total = partModules.reduce((n, m) => n + getModuleProgress(m.moduleId).total, 0)
+                const learned = partModules.reduce((n, m) => n + getModuleProgress(m.moduleId).learned, 0)
+                return (
+                  <div key={partIdx}>
+                    <div className="rounded-lg border border-dashed border-border/50 bg-muted/20 p-3">
+                      <div className="mb-2 flex items-center gap-2.5">
+                        <span
+                          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold text-foreground"
+                          style={{ backgroundColor: `${part.color}26`, border: `1px solid ${partStateColor(part, learned, total)}`, boxShadow: `0 0 8px ${part.color}40` }}
+                        >
+                          {part.icon.slice(0, 2)}
+                        </span>
+                        <span className="text-sm font-semibold text-foreground">{part.name}</span>
+                        <span className="text-xs text-muted-foreground">· {part.subtitle}</span>
+                        {total > 0 && (
+                          <span className="ml-auto shrink-0 text-xs font-bold text-muted-foreground">
+                            {learned}/{total}
+                          </span>
+                        )}
+                      </div>
+
+                      <p className="mb-2.5 text-xs leading-relaxed text-muted-foreground">{part.desc}</p>
+
+                      {/* 可展开的知识点卡片 */}
+                      {partModules.length > 0 && (
+                        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+                          {partModules.map((mod) => {
+                            const prog = getModuleProgress(mod.moduleId)
+                            const isComplete = prog.total > 0 && prog.learned === prog.total
+                            const isPartial = prog.learned > 0 && prog.learned < prog.total
+                            const isExpanded = mod.moduleId && expandedModules.has(mod.moduleId)
+                            const modPoints = getModulePoints(mod.moduleId)
+
+                            return (
+                              <div
+                                key={mod.name}
+                                className={cn(
+                                  "relative overflow-hidden rounded-lg border transition-all",
+                                  isComplete
+                                    ? "border-success/40 bg-success/5"
+                                    : isPartial
+                                      ? "border-warning/40 bg-warning/5"
+                                      : isExpanded
+                                        ? "border-primary/40 bg-card"
+                                        : "border-border/60 bg-card hover:border-primary/30"
+                                )}
+                              >
+                                <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: partStateColor(part, learned, total), opacity: 0.7 }} />
+                                <button
+                                  onClick={() => mod.moduleId && toggleModule(mod.moduleId)}
+                                  className="flex w-full items-center gap-2 pl-3 pr-2.5 py-2.5 text-left"
+                                >
+                                  <span className="text-sm font-medium text-foreground">{mod.name}</span>
+                                  {prog.total > 0 && (
+                                    <span className={cn("text-xs font-bold", isComplete && "text-success", isPartial && "text-warning-text", !isComplete && !isPartial && "text-muted-foreground")}>
+                                      {prog.learned}/{prog.total}
+                                    </span>
+                                  )}
+                                  {isComplete && <Check className="h-3.5 w-3.5 shrink-0 text-success" />}
+                                  <span className="ml-auto shrink-0 text-muted-foreground">
+                                    {isExpanded ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
+                                  </span>
+                                </button>
+
+                                {isExpanded && modPoints.length > 0 && (
+                                  <div className="border-t border-border/40 bg-muted/10">
+                                    {modPoints.map((point, idx) => {
+                                      const isLearned = learnedSet.has(point.id)
+                                      return (
+                                        <div
+                                          key={point.id}
+                                          className="flex items-center gap-2 pl-5 pr-3 py-2 cursor-pointer hover:bg-primary/5 transition-colors"
+                                          onClick={() => onPointClick?.(point)}
+                                          role="button"
+                                          tabIndex={0}
+                                          onKeyDown={(e) => {
+                                            if (e.key === "Enter" || e.key === " ") {
+                                              e.preventDefault()
+                                              onPointClick?.(point)
+                                            }
+                                          }}
+                                        >
+                                          <span className="shrink-0 font-mono text-xs text-muted-foreground/40">{idx + 1}.</span>
+                                          <span className={cn("h-2 w-2 shrink-0 rounded-full border-2 transition-all", isLearned && "border-success bg-success", !isLearned && "border-primary/40 bg-primary/15")} />
+                                          <span className={cn("flex-1 text-sm", isLearned ? "text-foreground/70" : "text-foreground")}>{point.name}</span>
+                                          <span className="shrink-0 text-xs text-muted-foreground">{isLearned ? "已掌握" : "点击查看"}</span>
+                                        </div>
+                                      )
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 相邻部件连接 */}
+                    {partIdx < arch.house!.length - 1 && (
+                      <div className="flex items-center justify-center py-1">
+                        <ArrowDown className="h-3.5 w-3.5 text-primary/70" />
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+
+              {/* 核心逻辑链 */}
+              <div className="rounded-lg border border-accent/30 bg-accent/5 p-3">
+                <div className="mb-1 flex items-center gap-1.5">
+                  <span className="text-xs font-bold tracking-wide text-accent">满房贯通 · 核心逻辑链</span>
+                </div>
+                <p className="text-xs leading-relaxed text-foreground/90">{arch.logicChain}</p>
+              </div>
+            </div>
+          )}
+
           {/* 三层架构 */}
+          {!arch.house && (
           <div className="space-y-2">
             {arch.layers.map((layer, layerIdx) => (
               <div key={layerIdx}>
@@ -794,6 +1098,7 @@ export function DomainArchitectureView({ subdomainId, learnedPoints, onPointClic
               </div>
             ))}
           </div>
+          )}
 
           {/* 核心逻辑链 */}
           <div className="rounded-lg border border-accent/30 bg-accent/5 p-3">
